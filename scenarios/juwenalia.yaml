@@ -1,0 +1,27 @@
+# Scenariusz bazowy: Miasteczko Studenckie AGH, alarm po 60 s imprezy.
+# Wszystko poniżej to wartości ILUSTRACYJNE (do dobrania po 5.11) - nic tu nie jest skalibrowane.
+map: mapa_ms_poprawiona.json
+seed: 42
+
+agents:
+  count: 3000            # porównanie: 6000 i 10000 (--n 6000)
+  party_phase_s: 60
+  v0_mps: {mean: 1.3, sd: 0.2, min: 0.7, max: 1.8}
+
+behaviour:
+  ignore_alarm_share: 0.20     # ignorują ostrzeżenie; ruszają, gdy ruszy większość sąsiadów
+  panic_initial_share: 0.05    # w panice od początku, zarażają innych
+  majority: 0.5
+  neighbor_radius_m: 5.0
+  ignore_fallback_s: 180       # bezpiecznik; null = wyłączony (ignorujący czekają tylko na sąsiadów)
+
+hazard:
+  origin_xy: [80, 219]         # na lewo od toi-toi; zmień tu
+  source_label: UEK
+
+exits:
+  closed: []                   # bramy zamknięte od startu, np. [Z2] albo [Z1, Z2]; Z1 i Z2 są zamykane
+  close_at_s: {}               # np. {Z2: 45} - zamknięcie w trakcie ewakuacji
+
+sim:
+  t_max_s: 600

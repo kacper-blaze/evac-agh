@@ -1,0 +1,6 @@
+numpy>=1.24
+scipy>=1.10
+matplotlib>=3.7
+pyyaml>=6
+numba>=0.58      # zalecane (szybsze jądro); bez niej działa wariant NumPy
+imageio-ffmpeg    # opcjonalnie, jeśli w systemie nie ma ffmpeg
