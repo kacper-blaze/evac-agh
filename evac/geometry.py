@@ -47,8 +47,20 @@ class Scene:
         self.data = data
         self.name = data.get("nazwa", "mapa")
         self.polygon = np.asarray(data["granica"], dtype=float)
-        self.obstacles = [np.asarray(o["obrys"], dtype=float) for o in data.get("przeszkody", [])
-                          if o.get("aktywna", True)]
+        self.tunnels = [np.asarray(t["obrys"], dtype=float) for t in data.get("tunele", [])
+                        if t.get("aktywny", True)]
+        self.fixed_obstacles = [np.asarray(o["obrys"], dtype=float) for o in data.get("przeszkody", [])
+                                if o.get("aktywna", True)]
+        self.benches = [b for b in data.get("lawki", []) if b.get("aktywna", True)]
+        # OSM zapisuje większość ławek jako punkty bez orientacji i wymiarów. W modelu
+        # używamy kierunkowo neutralnego, ośmiokątnego rzutu o zadanym promieniu.
+        self.bench_obstacles = []
+        for b in self.benches:
+            x, y = map(float, b["xy"])
+            r = float(b.get("promien_m", 0.45))
+            a = np.linspace(0.0, 2.0 * np.pi, 8, endpoint=False)
+            self.bench_obstacles.append(np.column_stack((x + r * np.cos(a), y + r * np.sin(a))))
+        self.obstacles = self.fixed_obstacles + self.bench_obstacles
         self.sidewalks = data.get("chodniki", [])
 
         # bariery: z pliku JSON ("bariery") + z konfiguracji
@@ -68,8 +80,11 @@ class Scene:
             self.exits.append(self._mk_exit(e, closable=True))
         self.exit_index = {e.id: k for k, e in enumerate(self.exits)}
 
-        xmin, ymin = self.polygon.min(axis=0)
-        xmax, ymax = self.polygon.max(axis=0)
+        extent_parts = [self.polygon] + self.tunnels
+        extent_parts += [np.vstack((e.a, e.b)) for e in self.exits]
+        extent = np.vstack(extent_parts)
+        xmin, ymin = extent.min(axis=0)
+        xmax, ymax = extent.max(axis=0)
         self.bounds = (float(xmin), float(ymin), float(xmax), float(ymax))
 
         g = cfg.grid
@@ -95,15 +110,20 @@ class Scene:
         return ex
 
     def _orient_exits(self):
-        poly = Path(self.polygon)
+        walkable_polys = [Path(self.polygon)] + [Path(t) for t in self.tunnels]
+
+        def is_walkable(point):
+            return any(poly.contains_point(point, radius=1e-9) for poly in walkable_polys)
+
         for e in self.exits:
             d = e.b - e.a
             e.length = float(np.hypot(*d))
             e.u = d / e.length
             e.center = 0.5 * (e.a + e.b)
             n = np.array([-e.u[1], e.u[0]])
-            # n ma wskazywać NA ZEWNĄTRZ obrysu
-            if poly.contains_point(e.center + 0.4 * n):
+            # n ma wskazywać NA ZEWNĄTRZ obszaru dostępnego. Wyjścia W1-W3 leżą
+            # teraz na końcach tuneli, a więc poza głównym wielokątem mapy.
+            if is_walkable(e.center + 0.4 * n):
                 n = -n
             e.n = n
 
@@ -145,6 +165,9 @@ class Scene:
 
     def _rasterize(self):
         self.inside = self._poly_mask(self.polygon)
+        self.tunnel_mask = np.zeros_like(self.inside)
+        for t in self.tunnels:
+            self.tunnel_mask |= self._poly_mask(t)
         self.obstacle_mask = np.zeros_like(self.inside)
         for o in self.obstacles:
             self.obstacle_mask |= self._poly_mask(o)
@@ -166,7 +189,7 @@ class Scene:
         return [bool(e.open0) and e.id not in closed for e in self.exits]
 
     def wall_fields(self, open_flags) -> WallFields:
-        walk = self.inside.copy()
+        walk = self.inside | self.tunnel_mask
         for k, e in enumerate(self.exits):
             if open_flags[k]:
                 walk |= self.pocket_masks[k]

@@ -17,7 +17,7 @@ Wyniki lądują w `results/`: `*_summary.csv`, `*_gates.csv`, `*_timeseries.csv`
 | plik | rola |
 |---|---|
 | `evac/config.py` | wszystkie parametry i wartości domyślne (nadpisywane w YAML lub `--set klucz=wartość`) |
-| `evac/geometry.py` | mapa → siatka pomocnicza (ściany, bramy) |
+| `evac/geometry.py` | mapa → siatka pomocnicza (ściany, zamknięte obszary, ławki, tunele i bramy) |
 | `evac/fields.py` | nawigacja do bram (Dijkstra) i dym (dyfuzja) |
 | `evac/agents.py` | tworzenie agentów, grupy, typy zachowania |
 | `evac/engine.py` | fizyka SFM: jądro w pętlach (Numba `@njit`) i wariant NumPy |

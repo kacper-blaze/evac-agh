@@ -40,8 +40,12 @@ def render_video(res, path: str, fps: int = 10, max_frames: int | None = None, d
     ax.set_xlabel("x [m]")
     ax.set_ylabel("y [m]")
     ax.add_patch(Polygon(sc.polygon, closed=True, fc="#f4f1ea", ec="#444", lw=1.2, zorder=0))
-    for o in sc.obstacles:
+    for t in sc.tunnels:
+        ax.add_patch(Polygon(t, closed=True, fc="#f4f1ea", ec="#777", lw=0.8, zorder=0))
+    for o in sc.fixed_obstacles:
         ax.add_patch(Polygon(o, closed=True, fc="#8a8f98", ec="#444", lw=0.6, zorder=1))
+    for o in sc.bench_obstacles:
+        ax.add_patch(Polygon(o, closed=True, fc="#9b6b43", ec="#5f3d25", lw=0.4, zorder=1))
     for b in sc.barriers:
         ax.plot([b["from"][0], b["to"][0]], [b["from"][1], b["to"][1]], color="k", lw=2, zorder=2)
 
