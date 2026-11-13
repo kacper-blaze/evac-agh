@@ -1,0 +1,1367 @@
+{
+ "nazwa": "Miasteczko Studenckie AGH – obszar symulacji",
+ "opis": "Obrys narysowany przez użytkownika na zdjęciu satelitarnym, dopasowany do obrysów budynków z OpenStreetMap (stan 31.10.2026). Czerwony = granica (ściana), niebieski = wyjścia, żółty = przejścia, które bywają zamykane.",
+ "uklad": {
+  "jednostki": "metry",
+  "x": "na wschód",
+  "y": "na północ",
+  "epsg": 2180,
+  "poczatek_epsg2180": [
+   564758,
+   244832
+  ],
+  "przeliczenie": "X_2180 = x + poczatek[0], Y_2180 = y + poczatek[1]"
+ },
+ "granica": [
+  [
+   3.34,
+   64.45
+  ],
+  [
+   7.1,
+   81.56
+  ],
+  [
+   25.07,
+   77.61
+  ],
+  [
+   30.05,
+   100.26
+  ],
+  [
+   19.57,
+   102.57
+  ],
+  [
+   16.61,
+   89.11
+  ],
+  [
+   9.32,
+   90.71
+  ],
+  [
+   24.63,
+   160.32
+  ],
+  [
+   32.94,
+   158.49
+  ],
+  [
+   48.44,
+   228.98
+  ],
+  [
+   55.45,
+   227.44
+  ],
+  [
+   53.98,
+   220.75
+  ],
+  [
+   64.73,
+   218.39
+  ],
+  [
+   70.03,
+   242.49
+  ],
+  [
+   99.71,
+   235.96
+  ],
+  [
+   92.98,
+   205.35
+  ],
+  [
+   110.09,
+   201.59
+  ],
+  [
+   107.36,
+   189.15
+  ],
+  [
+   116.56,
+   187.13
+  ],
+  [
+   96.14,
+   94.27
+  ],
+  [
+   71.42,
+   99.7
+  ],
+  [
+   60.42,
+   49.66
+  ],
+  [
+   68.65,
+   47.85
+  ],
+  [
+   64.3,
+   28.1
+  ],
+  [
+   58.03,
+   29.48
+  ],
+  [
+   59.75,
+   37.31
+  ],
+  [
+   49.08,
+   39.66
+  ],
+  [
+   44.43,
+   18.52
+  ],
+  [
+   54.63,
+   16.28
+  ],
+  [
+   56.72,
+   25.76
+  ],
+  [
+   64.04,
+   24.15
+  ],
+  [
+   59.14,
+   1.85
+  ],
+  [
+   1.08,
+   14.62
+  ],
+  [
+   11.63,
+   62.62
+  ]
+ ],
+ "granica_latlon": [
+  [
+   50.0677966,
+   19.9051929
+  ],
+  [
+   50.0679501,
+   19.9052483
+  ],
+  [
+   50.0679126,
+   19.9054988
+  ],
+  [
+   50.0681158,
+   19.9055722
+  ],
+  [
+   50.0681377,
+   19.9054262
+  ],
+  [
+   50.0680169,
+   19.9053825
+  ],
+  [
+   50.0680321,
+   19.9052809
+  ],
+  [
+   50.0686566,
+   19.9055067
+  ],
+  [
+   50.0686393,
+   19.9056225
+  ],
+  [
+   50.0692717,
+   19.9058511
+  ],
+  [
+   50.0692571,
+   19.9059488
+  ],
+  [
+   50.069197,
+   19.9059271
+  ],
+  [
+   50.0691746,
+   19.9060769
+  ],
+  [
+   50.0693908,
+   19.9061551
+  ],
+  [
+   50.0693289,
+   19.9065688
+  ],
+  [
+   50.0690542,
+   19.9064695
+  ],
+  [
+   50.0690186,
+   19.906708
+  ],
+  [
+   50.068907,
+   19.9066678
+  ],
+  [
+   50.0688878,
+   19.906796
+  ],
+  [
+   50.0680547,
+   19.9064949
+  ],
+  [
+   50.0681062,
+   19.9061503
+  ],
+  [
+   50.0676573,
+   19.9059881
+  ],
+  [
+   50.0676401,
+   19.9061028
+  ],
+  [
+   50.0674629,
+   19.9060387
+  ],
+  [
+   50.067476,
+   19.9059513
+  ],
+  [
+   50.0675463,
+   19.9059766
+  ],
+  [
+   50.0675686,
+   19.9058279
+  ],
+  [
+   50.0673789,
+   19.9057594
+  ],
+  [
+   50.0673576,
+   19.9059015
+  ],
+  [
+   50.0674427,
+   19.9059323
+  ],
+  [
+   50.0674274,
+   19.9060344
+  ],
+  [
+   50.0672274,
+   19.9059621
+  ],
+  [
+   50.0673486,
+   19.9051529
+  ],
+  [
+   50.0677792,
+   19.9053084
+  ]
+ ],
+ "wyjscia": [
+  {
+   "id": "W1",
+   "opis": "przejście przez budynek – Bonus (północne)",
+   "szerokosc_m": 5.4,
+   "otwarte": true,
+   "odcinek": [
+    [
+     106.92,
+     143.3
+    ],
+    [
+     105.76,
+     138.02
+    ]
+   ],
+   "latlon_srodka": [
+    50.0684709,
+    19.9066453
+   ]
+  },
+  {
+   "id": "W2",
+   "opis": "przejście przez budynek – Bratek",
+   "szerokosc_m": 5.4,
+   "otwarte": true,
+   "odcinek": [
+    [
+     16.79,
+     124.7
+    ],
+    [
+     17.95,
+     129.97
+    ]
+   ],
+   "latlon_srodka": [
+    50.0683607,
+    19.9053997
+   ]
+  },
+  {
+   "id": "W3",
+   "opis": "przejście przez budynek – Bonus (południowe)",
+   "szerokosc_m": 5.4,
+   "otwarte": true,
+   "odcinek": [
+    [
+     100.07,
+     112.12
+    ],
+    [
+     98.91,
+     106.85
+    ]
+   ],
+   "latlon_srodka": [
+    50.0681912,
+    19.9065442
+   ]
+  },
+  {
+   "id": "W4",
+   "opis": "wejście przy narożniku Bratka (ciemnozielone)",
+   "szerokosc_m": 5.4,
+   "otwarte": true,
+   "odcinek": [
+    [
+     23.19,
+     153.76
+    ],
+    [
+     24.35,
+     159.03
+    ]
+   ],
+   "latlon_srodka": [
+    50.0686214,
+    19.9054939
+   ]
+  },
+  {
+   "id": "W5",
+   "opis": "wejście w ścianie Zaścianka, północne (fioletowe)",
+   "szerokosc_m": 4.0,
+   "otwarte": true,
+   "odcinek": [
+    [
+     10.71,
+     97.03
+    ],
+    [
+     11.57,
+     100.94
+    ]
+   ],
+   "latlon_srodka": [
+    50.0681063,
+    19.9053077
+   ]
+  },
+  {
+   "id": "W6",
+   "opis": "wejście w ścianie Zaścianka, południowe (fioletowe)",
+   "szerokosc_m": 4.0,
+   "otwarte": true,
+   "odcinek": [
+    [
+     5.8,
+     75.64
+    ],
+    [
+     6.66,
+     79.55
+    ]
+   ],
+   "latlon_srodka": [
+    50.0679145,
+    19.9052355
+   ]
+  }
+ ],
+ "przejscia_zamykane": [
+  {
+   "id": "Z1",
+   "opis": "przejście zamykane – przy Filutek",
+   "szerokosc_m": 1.0,
+   "otwarte": true,
+   "odcinek": [
+    [
+     49.01,
+     228.85
+    ],
+    [
+     49.99,
+     228.64
+    ]
+   ],
+   "latlon_srodka": [
+    50.0692695,
+    19.9058658
+   ]
+  },
+  {
+   "id": "Z2",
+   "opis": "przejście zamykane – przy Promyk / Bonus",
+   "szerokosc_m": 7.45,
+   "otwarte": true,
+   "odcinek": [
+    [
+     95.42,
+     94.43
+    ],
+    [
+     88.14,
+     96.03
+    ]
+   ],
+   "latlon_srodka": [
+    50.0680638,
+    19.9064341
+   ]
+  }
+ ],
+ "przeszkody": [
+  {
+   "id": "L1",
+   "rodzaj": "płot",
+   "aktywna": true,
+   "grubosc_m": 0.15,
+   "linia": [
+    [
+     11.63,
+     62.62
+    ],
+    [
+     40.43,
+     56.29
+    ],
+    [
+     44.24,
+     73.6
+    ],
+    [
+     64.69,
+     69.1
+    ]
+   ]
+  },
+  {
+   "id": "T1",
+   "rodzaj": "toi-toi",
+   "aktywna": true,
+   "wymiary_m": [
+    1.2,
+    1.2,
+    2.35
+   ],
+   "obrys": [
+    [
+     86.16,
+     219.26
+    ],
+    [
+     87.33,
+     219.0
+    ],
+    [
+     87.59,
+     220.18
+    ],
+    [
+     86.42,
+     220.43
+    ]
+   ]
+  },
+  {
+   "id": "T2",
+   "rodzaj": "toi-toi",
+   "aktywna": true,
+   "wymiary_m": [
+    1.2,
+    1.2,
+    2.35
+   ],
+   "obrys": [
+    [
+     87.33,
+     219.0
+    ],
+    [
+     88.5,
+     218.75
+    ],
+    [
+     88.76,
+     219.92
+    ],
+    [
+     87.59,
+     220.18
+    ]
+   ]
+  },
+  {
+   "id": "T3",
+   "rodzaj": "toi-toi",
+   "aktywna": true,
+   "wymiary_m": [
+    1.2,
+    1.2,
+    2.35
+   ],
+   "obrys": [
+    [
+     88.5,
+     218.75
+    ],
+    [
+     89.67,
+     218.49
+    ],
+    [
+     89.93,
+     219.66
+    ],
+    [
+     88.76,
+     219.92
+    ]
+   ]
+  },
+  {
+   "id": "T4",
+   "rodzaj": "toi-toi",
+   "aktywna": true,
+   "wymiary_m": [
+    1.2,
+    1.2,
+    2.35
+   ],
+   "obrys": [
+    [
+     89.67,
+     218.49
+    ],
+    [
+     90.85,
+     218.23
+    ],
+    [
+     91.1,
+     219.4
+    ],
+    [
+     89.93,
+     219.66
+    ]
+   ]
+  },
+  {
+   "id": "T5",
+   "rodzaj": "toi-toi",
+   "aktywna": true,
+   "wymiary_m": [
+    1.2,
+    1.2,
+    2.35
+   ],
+   "obrys": [
+    [
+     90.85,
+     218.23
+    ],
+    [
+     92.02,
+     217.97
+    ],
+    [
+     92.28,
+     219.14
+    ],
+    [
+     91.1,
+     219.4
+    ]
+   ]
+  },
+  {
+   "id": "T6",
+   "rodzaj": "toi-toi",
+   "aktywna": true,
+   "wymiary_m": [
+    1.2,
+    1.2,
+    2.35
+   ],
+   "obrys": [
+    [
+     92.02,
+     217.97
+    ],
+    [
+     93.19,
+     217.71
+    ],
+    [
+     93.45,
+     218.89
+    ],
+    [
+     92.28,
+     219.14
+    ]
+   ]
+  },
+  {
+   "id": "T7",
+   "rodzaj": "toi-toi",
+   "aktywna": true,
+   "wymiary_m": [
+    1.2,
+    1.2,
+    2.35
+   ],
+   "obrys": [
+    [
+     93.19,
+     217.71
+    ],
+    [
+     94.36,
+     217.46
+    ],
+    [
+     94.62,
+     218.63
+    ],
+    [
+     93.45,
+     218.89
+    ]
+   ]
+  },
+  {
+   "id": "T8",
+   "rodzaj": "toi-toi",
+   "aktywna": true,
+   "wymiary_m": [
+    1.2,
+    1.2,
+    2.35
+   ],
+   "obrys": [
+    [
+     94.36,
+     217.46
+    ],
+    [
+     95.53,
+     217.2
+    ],
+    [
+     95.79,
+     218.37
+    ],
+    [
+     94.62,
+     218.63
+    ]
+   ]
+  }
+ ],
+ "zalozenia": {
+  "szerokosc_drzwi_m": 0.9,
+  "szerokosc_wjazdu_dla_wozka_m": 0.9,
+  "Z1": "1.5 x drzwi",
+  "W2": "4 x wjazd dla wózka",
+  "W1, W3": "1.5 x W2",
+  "uwaga": "0.90 m = minimalna szerokość drzwi/przejścia dostępnego dla wózka wg polskich warunków technicznych; zmień, jeśli mierzyłeś inaczej",
+  "toi_toi": "TOI Fresh: podstawa 120 x 120 cm, wysokość 235 cm (toitoi.pl); 8 kabin jedna przy drugiej wzdłuż północnej krawędzi boiska, dosunięte do granicy (ściany)"
+ },
+ "chodniki": [
+  {
+   "id": "C1",
+   "nazwa": "",
+   "szerokosc_m": 1.5,
+   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
+   "os": [
+    [
+     69.87,
+     116.01
+    ],
+    [
+     56.66,
+     126.52
+    ],
+    [
+     55.49,
+     128.39
+    ],
+    [
+     51.96,
+     131.13
+    ],
+    [
+     31.09,
+     147.95
+    ],
+    [
+     28.32,
+     153.46
+    ]
+   ]
+  },
+  {
+   "id": "C2",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     84.28,
+     112.86
+    ],
+    [
+     98.34,
+     109.73
+    ],
+    [
+     99.61,
+     109.46
+    ]
+   ]
+  },
+  {
+   "id": "C3",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     57.61,
+     137.09
+    ],
+    [
+     78.73,
+     146.06
+    ]
+   ]
+  },
+  {
+   "id": "C4",
+   "nazwa": "",
+   "szerokosc_m": 1.5,
+   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
+   "os": [
+    [
+     56.72,
+     133.56
+    ],
+    [
+     51.96,
+     131.13
+    ],
+    [
+     33.67,
+     124.03
+    ]
+   ]
+  },
+  {
+   "id": "C5",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     64.65,
+     167.77
+    ],
+    [
+     70.7,
+     196.59
+    ],
+    [
+     70.89,
+     197.82
+    ],
+    [
+     73.16,
+     207.41
+    ],
+    [
+     60.5,
+     210.39
+    ],
+    [
+     55.73,
+     216.23
+    ]
+   ]
+  },
+  {
+   "id": "C6",
+   "nazwa": "",
+   "szerokosc_m": 2.5,
+   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
+   "os": [
+    [
+     64.65,
+     167.77
+    ],
+    [
+     38.81,
+     155.42
+    ]
+   ]
+  },
+  {
+   "id": "C7",
+   "nazwa": "",
+   "szerokosc_m": 3.0,
+   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
+   "os": [
+    [
+     28.36,
+     8.63
+    ],
+    [
+     28.39,
+     8.78
+    ],
+    [
+     30.99,
+     19.17
+    ],
+    [
+     39.73,
+     58.15
+    ],
+    [
+     43.87,
+     76.62
+    ],
+    [
+     46.96,
+     89.9
+    ],
+    [
+     53.53,
+     119.59
+    ],
+    [
+     55.49,
+     128.39
+    ],
+    [
+     56.72,
+     133.56
+    ],
+    [
+     57.61,
+     137.09
+    ],
+    [
+     60.52,
+     150.32
+    ]
+   ]
+  },
+  {
+   "id": "C8",
+   "nazwa": "Autostrada MS AGH",
+   "szerokosc_m": 3.0,
+   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
+   "os": [
+    [
+     25.06,
+     157.48
+    ],
+    [
+     26.19,
+     157.24
+    ],
+    [
+     28.94,
+     156.69
+    ],
+    [
+     33.59,
+     156.67
+    ],
+    [
+     38.81,
+     155.42
+    ],
+    [
+     60.52,
+     150.32
+    ],
+    [
+     78.73,
+     146.06
+    ],
+    [
+     105.14,
+     139.92
+    ],
+    [
+     106.48,
+     140.63
+    ]
+   ]
+  },
+  {
+   "id": "C9",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     109.98,
+     189.59
+    ],
+    [
+     97.72,
+     192.54
+    ],
+    [
+     91.51,
+     192.73
+    ],
+    [
+     83.83,
+     194.65
+    ],
+    [
+     70.89,
+     197.82
+    ]
+   ]
+  },
+  {
+   "id": "C10",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     64.65,
+     167.77
+    ],
+    [
+     60.52,
+     150.32
+    ]
+   ]
+  },
+  {
+   "id": "C11",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     109.98,
+     189.59
+    ],
+    [
+     64.65,
+     167.77
+    ]
+   ]
+  },
+  {
+   "id": "C12",
+   "nazwa": "",
+   "szerokosc_m": 4.0,
+   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
+   "os": [
+    [
+     46.96,
+     89.9
+    ],
+    [
+     72.96,
+     103.46
+    ],
+    [
+     84.19,
+     100.94
+    ],
+    [
+     83.89,
+     99.08
+    ],
+    [
+     92.97,
+     97.19
+    ]
+   ]
+  },
+  {
+   "id": "C13",
+   "nazwa": "",
+   "szerokosc_m": 2.5,
+   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
+   "os": [
+    [
+     30.99,
+     19.17
+    ],
+    [
+     52.07,
+     14.59
+    ],
+    [
+     53.73,
+     14.6
+    ],
+    [
+     56.16,
+     14.04
+    ],
+    [
+     63.09,
+     23.54
+    ]
+   ]
+  },
+  {
+   "id": "C14",
+   "nazwa": "",
+   "szerokosc_m": 2.5,
+   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
+   "os": [
+    [
+     39.73,
+     58.15
+    ],
+    [
+     19.94,
+     62.42
+    ],
+    [
+     13.8,
+     72.06
+    ],
+    [
+     15.49,
+     79.79
+    ],
+    [
+     26.11,
+     77.93
+    ],
+    [
+     46.96,
+     89.9
+    ]
+   ]
+  },
+  {
+   "id": "C15",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     55.73,
+     216.23
+    ],
+    [
+     47.11,
+     218.15
+    ]
+   ]
+  },
+  {
+   "id": "C16",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     33.59,
+     156.67
+    ],
+    [
+     47.11,
+     218.15
+    ],
+    [
+     49.39,
+     228.25
+    ]
+   ]
+  },
+  {
+   "id": "C17",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     28.94,
+     156.69
+    ],
+    [
+     28.32,
+     153.46
+    ],
+    [
+     26.35,
+     145.5
+    ],
+    [
+     21.64,
+     126.47
+    ],
+    [
+     14.01,
+     91.82
+    ]
+   ]
+  },
+  {
+   "id": "C18",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     105.14,
+     139.92
+    ],
+    [
+     101.92,
+     126.12
+    ]
+   ]
+  },
+  {
+   "id": "C19",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     98.34,
+     109.73
+    ],
+    [
+     94.9,
+     94.56
+    ]
+   ]
+  },
+  {
+   "id": "C20",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     80.38,
+     220.54
+    ],
+    [
+     84.1,
+     237.4
+    ]
+   ]
+  },
+  {
+   "id": "C21",
+   "nazwa": "",
+   "szerokosc_m": 2.0,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     73.16,
+     207.41
+    ],
+    [
+     76.82,
+     206.54
+    ],
+    [
+     80.38,
+     220.54
+    ]
+   ]
+  },
+  {
+   "id": "C22",
+   "nazwa": "",
+   "szerokosc_m": 3.0,
+   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
+   "os": [
+    [
+     94.15,
+     94.74
+    ],
+    [
+     92.97,
+     97.19
+    ],
+    [
+     84.28,
+     112.86
+    ],
+    [
+     69.87,
+     116.01
+    ],
+    [
+     53.53,
+     119.59
+    ],
+    [
+     33.67,
+     124.03
+    ],
+    [
+     21.64,
+     126.47
+    ],
+    [
+     16.98,
+     127.42
+    ]
+   ]
+  },
+  {
+   "id": "C23",
+   "nazwa": "",
+   "szerokosc_m": 1.5,
+   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
+   "os": [
+    [
+     22.09,
+     146.58
+    ],
+    [
+     26.35,
+     145.5
+    ]
+   ]
+  },
+  {
+   "id": "C24",
+   "nazwa": "plac utwardzony",
+   "zrodlo_szerokosci": "obrys z OpenStreetMap",
+   "obrys": [
+    [
+     73.74,
+     195.85
+    ],
+    [
+     70.7,
+     196.59
+    ],
+    [
+     69.32,
+     196.85
+    ],
+    [
+     66.83,
+     186.04
+    ],
+    [
+     55.44,
+     188.71
+    ],
+    [
+     59.95,
+     209.06
+    ],
+    [
+     60.5,
+     210.39
+    ],
+    [
+     61.14,
+     211.66
+    ],
+    [
+     72.2,
+     209.12
+    ],
+    [
+     73.88,
+     214.64
+    ],
+    [
+     75.38,
+     221.63
+    ],
+    [
+     79.17,
+     220.78
+    ],
+    [
+     80.38,
+     220.54
+    ],
+    [
+     81.53,
+     220.28
+    ],
+    [
+     89.48,
+     218.53
+    ],
+    [
+     88.94,
+     214.58
+    ],
+    [
+     84.9,
+     195.52
+    ],
+    [
+     83.83,
+     194.65
+    ],
+    [
+     83.5,
+     193.47
+    ]
+   ]
+  }
+ ]
+}
