@@ -9,6 +9,7 @@ Siły na agenta i:
   agent-agent  [A exp((r_ij - d_ij)/B) + k g(r_ij - d_ij)] n_ij + kappa g(r_ij - d_ij) (v_j - v_i).t_ij t_ij
   agent-ściana to samo (ściana nieruchoma)
   grupa        słaba sprężyna do środka grupy (spójność)
+  zewnętrzna   m * a_ext (odpychanie od dymu i stref wykluczenia; liczone w sim.py)
 Ciśnienie = suma fizycznych sił nacisku (k g) / obwód 2 pi r  (Helbing 2000: uraz > 1600 N/m).
 """
 from __future__ import annotations
@@ -37,12 +38,12 @@ except Exception:  # pragma: no cover
         return deco
 
 # indeksy w wektorze parametrów P
-P_TAU, P_A, P_B, P_K, P_KAPPA, P_WA, P_WB, P_VCAP, P_COHFREE, P_PTHR, P_HOLD, P_INJ, P_GAP = range(13)
+P_TAU, P_A, P_B, P_K, P_KAPPA, P_WA, P_WB, P_VCAP, P_COHFREE, P_PTHR, P_HOLD, P_INJ, P_GAP, P_CN, P_GCAP = range(15)
 
 
 def pack_params(cfg) -> np.ndarray:
     s = cfg.sfm
-    P = np.zeros(13)
+    P = np.zeros(15)
     P[P_TAU] = s.tau_s
     P[P_A] = s.A_N
     P[P_B] = s.B_m
@@ -55,6 +56,10 @@ def pack_params(cfg) -> np.ndarray:
     P[P_PTHR] = cfg.injury.threshold_Npm
     P[P_HOLD] = cfg.injury.hold_s
     P[P_INJ] = 1.0 if cfg.injury.enabled else 0.0
+    # tłumienie normalne kontaktu (ciało pochłania energię): ułamek tłumienia krytycznego 2*sqrt(k*m); 0 = jak dotąd
+    P[P_CN] = float(getattr(s, "contact_damping_ratio", 0.0)) * 2.0 * math.sqrt(s.k * s.mass_kg)
+    # maks. ściśnięcie ciała liczone do ciśnienia (klatka piersiowa: ok. 20% głębokości tułowia = 5 cm, Viano i King 2000)
+    P[P_GCAP] = float(getattr(s, "pressure_overlap_cap_m", 1e9))
     P[P_GAP] = 0.8   # powyżej tej odległości między powierzchniami siły są pomijalne (A exp(-0.8/0.08) ~ 0.1 N)
     return P
 
@@ -78,7 +83,7 @@ def _bilerp(a, x, y, ox, oy, cs, nx, ny):
 
 
 @njit(cache=True)
-def step_loop(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, coh,
+def step_loop(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, coh, axe, aye,
               press_t, pressure, exit_k, t_exit,
               wall_nbx, wall_nby, wall_walk, wox, woy, wcw, wnx, wny,
               nav_ex, nav_ey, nox, noy, ncs, nnx, nny,
@@ -100,6 +105,8 @@ def step_loop(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, co
     hold = P[10]
     inj = P[11]
     gap = P[12]
+    cn = P[13]
+    gcap = P[14]
     two_pi = 2.0 * math.pi
 
     for c in range(gnx * gny):
@@ -190,6 +197,10 @@ def step_loop(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, co
                                 arg = 10.0
                             gp = g if g > 0.0 else 0.0
                             fn = A * math.exp(arg) + kk * gp
+                            if gp > 0.0:
+                                vrn = (vxi - vx[j]) * nxv + (vyi - vy[j]) * nyv
+                                if vrn < 0.0:
+                                    fn -= cn * vrn
                             fxi += fn * nxv
                             fyi += fn * nyv
                             tx = -nyv
@@ -198,7 +209,7 @@ def step_loop(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, co
                             ft = kappa * gp * dvt
                             fxi += ft * tx
                             fyi += ft * ty
-                            pni += kk * gp
+                            pni += kk * (gp if gp < gcap else gcap)
                     j = nxt[j]
 
         # --- ściana
@@ -220,6 +231,10 @@ def step_loop(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, co
                     arg = 10.0
                 gp = g if g > 0.0 else 0.0
                 fn = wA * math.exp(arg) + kk * gp
+                if gp > 0.0:
+                    vnw = vxi * nxv + vyi * nyv
+                    if vnw < 0.0:
+                        fn -= cn * vnw
                 fxi += fn * nxv
                 fyi += fn * nyv
                 tx = -nyv
@@ -228,7 +243,7 @@ def step_loop(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, co
                 ft = -kappa * gp * vt
                 fxi += ft * tx
                 fyi += ft * ty
-                pni += kk * gp
+                pni += kk * (gp if gp < gcap else gcap)
 
         # --- spójność grupy
         if coh[i] > 0.0:
@@ -239,6 +254,10 @@ def step_loop(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, co
                 mag = coh[i] * min(dg - cfree, 3.0) * mi
                 fxi += mag * dxg / dg
                 fyi += mag * dyg / dg
+
+        # --- przyspieszenie zewnętrzne (odpychanie od dymu / strefy wykluczenia); domyślnie 0
+        fxi += mi * axe[i]
+        fyi += mi * aye[i]
 
         fx[i] = fxi
         fy[i] = fyi
@@ -318,7 +337,7 @@ def _bilerp_np(a, x, y, ox, oy, cs):
     return v0 * (1 - ty) + v1 * ty
 
 
-def step_numpy(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, coh,
+def step_numpy(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, coh, axe, aye,
                press_t, pressure, exit_k, t_exit,
                wall_nbx, wall_nby, wall_walk, wox, woy, wcw, wnx, wny,
                nav_ex, nav_ey, nox, noy, ncs, nnx, nny,
@@ -326,7 +345,7 @@ def step_numpy(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, c
                P, dt, tnow,
                head, nxt, gox, goy, gcs, gnx, gny, fx, fy, pn):
     n = len(x)
-    tau, A, B, kk, kappa, wA, wB, vcap, cfree, pthr, hold, inj, gap = P[:13]
+    tau, A, B, kk, kappa, wA, wB, vcap, cfree, pthr, hold, inj, gap, cn, gcap = P[:15]
     K = len(e_ax)
     act = np.flatnonzero(state != 2)
     mov = np.flatnonzero((state == 0) | (state == 1))
@@ -380,6 +399,8 @@ def step_numpy(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, c
         g = rij - d
         gp = np.maximum(g, 0.0)
         fn = A * np.exp(np.minimum(g / B, 10.0)) + kk * gp
+        vrn = (vx[i] - vx[j]) * nxv + (vy[i] - vy[j]) * nyv
+        fn = fn - np.where((gp > 0) & (vrn < 0), cn * vrn, 0.0)
         tx, ty = -nyv, nxv
         dvt = (vx[j] - vx[i]) * tx + (vy[j] - vy[i]) * ty
         ft = kappa * gp * dvt
@@ -387,7 +408,7 @@ def step_numpy(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, c
         fyp = fn * nyv + ft * ty
         fx += np.bincount(i, weights=fxp, minlength=n) - np.bincount(j, weights=fxp, minlength=n)
         fy += np.bincount(i, weights=fyp, minlength=n) - np.bincount(j, weights=fyp, minlength=n)
-        pn += np.bincount(i, weights=kk * gp, minlength=n) + np.bincount(j, weights=kk * gp, minlength=n)
+        pn += np.bincount(i, weights=kk * np.minimum(gp, gcap), minlength=n) + np.bincount(j, weights=kk * np.minimum(gp, gcap), minlength=n)
 
     # --- ściany
     xm, ym = x[mov], y[mov]
@@ -409,12 +430,14 @@ def step_numpy(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, c
     gw = rm - ds
     gpw = np.where(sel, np.maximum(gw, 0.0), 0.0)
     fnw = np.where(sel, wA * np.exp(np.minimum(gw / wB, 10.0)) + kk * gpw, 0.0)
+    vnw = vx[mov] * nxw + vy[mov] * nyw
+    fnw = fnw - np.where(sel & (gpw > 0) & (vnw < 0), cn * vnw, 0.0)
     txw, tyw = -nyw, nxw
     vt = vx[mov] * txw + vy[mov] * tyw
     ftw = -kappa * gpw * vt
     fx[mov] += fnw * nxw + ftw * txw
     fy[mov] += fnw * nyw + ftw * tyw
-    pn[mov] += kk * gpw
+    pn[mov] += kk * np.minimum(gpw, gcap)
 
     # --- spójność grupy
     cm = coh[mov] > 0
@@ -427,6 +450,10 @@ def step_numpy(x, y, vx, vy, r, m, state, mode, v0eff, target, wx, wy, cx, cy, c
         safe = np.where(dg > 0, dg, 1)
         fx[mov] += mag * dxg / safe
         fy[mov] += mag * dyg / safe
+
+    # --- przyspieszenie zewnętrzne (odpychanie od dymu / strefy wykluczenia); domyślnie 0
+    fx[mov] += m[mov] * axe[mov]
+    fy[mov] += m[mov] * aye[mov]
 
     # --- całkowanie
     vxn = vx[mov] + fx[mov] / m[mov] * dt
@@ -522,7 +549,7 @@ class Physics:
     def _args(self, tnow):
         A, s, wf, nav = self.A, self.scene, self.wf, self.nav
         return (A.x, A.y, A.vx, A.vy, A.r, A.m, A.state, A.mode, A.v0eff, A.target, A.wx, A.wy,
-                A.cx, A.cy, A.coh, A.press_t, A.pressure, A.exit_k, A.t_exit,
+                A.cx, A.cy, A.coh, A.axe, A.aye, A.press_t, A.pressure, A.exit_k, A.t_exit,
                 wf.nbx, wf.nby, wf.walk, s.x0, s.y0, s.cw, s.nx, s.ny,
                 nav.ex, nav.ey, nav.x0, nav.y0, nav.cs, nav.nx, nav.ny,
                 self.e_ax, self.e_ay, self.e_ux, self.e_uy, self.e_nx, self.e_ny, self.e_len, self.e_open,

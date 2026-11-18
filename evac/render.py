@@ -34,20 +34,10 @@ def render_video(res, path: str, fps: int = 10, max_frames: int | None = None, d
     w, h = x1 - x0, y1 - y0
     fig_w = 8.0
     fig, ax = plt.subplots(figsize=(fig_w + 1.2, fig_w * (h + 10) / (w + 10) + 0.9), dpi=dpi, constrained_layout=True)
-    ax.set_aspect("equal")
-    ax.set_xlim(x0 - 5, x1 + 5)
-    ax.set_ylim(y0 - 5, y1 + 5)
+    from .stats import draw_map
+    draw_map(ax, sc, res.cfg)
     ax.set_xlabel("x [m]")
     ax.set_ylabel("y [m]")
-    ax.add_patch(Polygon(sc.polygon, closed=True, fc="#f4f1ea", ec="#444", lw=1.2, zorder=0))
-    for t in sc.tunnels:
-        ax.add_patch(Polygon(t, closed=True, fc="#f4f1ea", ec="#777", lw=0.8, zorder=0))
-    for o in sc.fixed_obstacles:
-        ax.add_patch(Polygon(o, closed=True, fc="#8a8f98", ec="#444", lw=0.6, zorder=1))
-    for o in sc.bench_obstacles:
-        ax.add_patch(Polygon(o, closed=True, fc="#9b6b43", ec="#5f3d25", lw=0.4, zorder=1))
-    for b in sc.barriers:
-        ax.plot([b["from"][0], b["to"][0]], [b["from"][1], b["to"][1]], color="k", lw=2, zorder=2)
 
     # dym
     smoke_im = None
@@ -65,10 +55,17 @@ def render_video(res, path: str, fps: int = 10, max_frames: int | None = None, d
         t = ax.text(e.center[0] + 2.5 * e.n[0], e.center[1] + 2.5 * e.n[1], e.id, fontsize=9, weight="bold",
                     ha="center", va="center", zorder=6)
         gate_txt.append(t)
-    ox, oy = res.cfg.hazard.origin_xy
-    if res.cfg.hazard.enabled:
-        ax.plot([ox], [oy], marker="*", ms=14, color="#d9480f", zorder=6)
-        ax.text(ox, oy + 3, str(res.cfg.hazard.source_label), color="#d9480f", fontsize=8, ha="center", zorder=6)
+    from matplotlib.patches import Circle
+    ev = res.events_obj
+    zone_art = []
+    for e in (ev.all if ev is not None else []):
+        mk = {"fire": "*", "bang": "X", "package": "P"}[e["type"]]
+        ax.plot([e["xy"][0]], [e["xy"][1]], marker=mk, ms=14, color="#d9480f", mec="k", mew=0.6, zorder=6)
+        ax.text(e["xy"][0], e["xy"][1] + 3, e["label"], color="#d9480f", fontsize=8, ha="center", zorder=6)
+        if e["type"] == "package":
+            c = Circle(e["xy"], 0.0, fc=(0.85, 0.1, 0.1, 0.12), ec="#c92a2a", lw=1.5, ls="--", zorder=4)
+            ax.add_patch(c)
+            zone_art.append(c)
 
     # agenci: kolor wg paniki; przewróceni = czarne X; stojący = jaśniejsze
     cmap = plt.get_cmap("RdYlGn_r")
@@ -76,12 +73,32 @@ def render_video(res, path: str, fps: int = 10, max_frames: int | None = None, d
     sc_art = ax.scatter(frames[0]["x"], frames[0]["y"], s=sizes, c=np.zeros(A.n), cmap=cmap, vmin=0, vmax=1,
                         zorder=5, linewidths=0)
     fall_art = ax.scatter([], [], s=sizes.mean() * 1.2, marker="x", c="k", zorder=7, linewidths=1.2)
+    # warstwy etapu 2: nieświadomi (szare), gapie (niebieska obwódka), lekko ranni (pomarańczowa obwódka)
+    unaw_art = ax.scatter([], [], s=sizes.mean(), c="#9aa0a6", zorder=5.5, linewidths=0)
+    gawk_art = ax.scatter([], [], s=sizes.mean() * 1.6, facecolors="none", edgecolors="#1c7ed6", zorder=6.5,
+                          linewidths=1.0)
+    inj_art = ax.scatter([], [], s=sizes.mean() * 1.6, facecolors="none", edgecolors="#e8590c", zorder=6.6,
+                         linewidths=1.0)
+    staged = str(res.cfg.alarm.mode) == "staged"
+    from matplotlib.lines import Line2D
+    handles = [Line2D([], [], marker="x", color="k", ls="", label="leży")]
+    if staged:
+        handles.append(Line2D([], [], marker="o", color="#9aa0a6", ls="", label="nieświadomy"))
+    if (A.typ == 3).any() or A.returner.any():
+        handles.append(Line2D([], [], marker="o", mfc="none", mec="#1c7ed6", ls="", label="gapi się / wraca po znajomego"))
+    if str(res.cfg.injury.mode) == "dose":
+        handles.append(Line2D([], [], marker="o", mfc="none", mec="#e8590c", ls="", label="lekko ranny"))
+    ax.legend(handles=handles, loc="lower right", fontsize=8, framealpha=0.85)
+
+    def _pts(f, m):
+        return np.column_stack((f["x"][m], f["y"][m])) if m.any() else np.empty((0, 2))
     info = ax.text(0.01, 0.99, "", transform=ax.transAxes, va="top", ha="left", fontsize=10,
                    bbox=dict(fc="white", ec="#999", alpha=0.85), zorder=10)
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(0, 1))
     cb = fig.colorbar(sm, ax=ax, fraction=0.025, pad=0.01)
     cb.set_label("poziom paniki")
-    ax.set_title(f"Ewakuacja Miasteczka Studenckiego AGH - N={A.n}, SFM (Helbing 2000)")
+    var = f", wariant: {res.cfg.variant}" if res.cfg.variant else ""
+    ax.set_title(f"Ewakuacja Miasteczka Studenckiego AGH - N={A.n}{var}, SFM (Helbing 2000)")
 
     def update(i):
         f = frames[i]
@@ -97,8 +114,22 @@ def render_video(res, path: str, fps: int = 10, max_frames: int | None = None, d
         for k, ln in enumerate(gate_lines):
             ln.set_color("#2e9e4f" if f["open"][k] else "#c92a2a")
         n_ev = int((f["state"] == 2).sum())
-        info.set_text(f"t = {f['t']:+.0f} s od alarmu\newakuowani: {n_ev}/{A.n}\n"
-                      f"w ruchu: {int((f['state'] == 1).sum())}   przewróceni: {int(fl.sum())}")
+        txt = (f"t = {f['t']:+.0f} s od {'zdarzenia' if staged else 'alarmu'}\newakuowani: {n_ev}/{A.n}\n"
+               f"w ruchu: {int((f['state'] == 1).sum())}   leżący: {int(fl.sum())}")
+        if "aw" in f:
+            un = (f["aw"] == 0) & (f["state"] == 0) & staged & (f["t"] >= 0)
+            gk = f["gawk"] & (f["state"] == 0)
+            lj = (f["inj"] == 1) & act & ~fl
+            unaw_art.set_offsets(_pts(f, un))
+            gawk_art.set_offsets(_pts(f, gk))
+            inj_art.set_offsets(_pts(f, lj))
+            if staged:
+                txt += f"\nnieświadomi: {int(un.sum())}   gapie: {int(gk.sum())}"
+            if (f["inj"] > 0).any():
+                txt += f"\nranni: lekko {int((f['inj'] == 1).sum())}, ciężko {int((f['inj'] == 2).sum())}"
+            for c, R in zip(zone_art, f.get("zones", [])):
+                c.set_radius(R)
+        info.set_text(txt)
         return []
 
     ffmpeg = _get_ffmpeg()

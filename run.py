@@ -5,6 +5,7 @@ Przykłady:
   python run.py scenarios/juwenalia.yaml
   python run.py scenarios/juwenalia.yaml --n 6000 --closed Z2 --seed 7
   python run.py scenarios/juwenalia.yaml --set hazard.origin_xy=[100,200] --set behaviour.ignore_alarm_share=0.3
+  python run.py scenarios/etap2.yaml --variant remont_czwartek --event huk     # nowa mapa, moduły etapu 2
 """
 import argparse
 import os
@@ -42,7 +43,16 @@ def build_cfg(args):
         over.setdefault("sim", {})["t_max_s"] = args.tmax
     if args.party is not None:
         over.setdefault("agents", {})["party_phase_s"] = args.party
-    return load_config(args.scenario, over, args.set)
+    return load_config(args.scenario, over, args.set, variant=getattr(args, "variant", None),
+                       event=getattr(args, "event", None))
+
+
+def make_tag(cfg):
+    closed = "_".join(cfg.exits.closed) if cfg.exits.closed else "all"
+    parts = [f"N{cfg.agents.count}", cfg.variant if cfg.variant else f"closed-{closed}"]
+    if cfg.event_name:
+        parts.append(str(cfg.event_name))
+    return "_".join(parts + [f"s{cfg.seed}"])
 
 
 def main(argv=None):
@@ -51,6 +61,8 @@ def main(argv=None):
     ap.add_argument("--n", type=int, help="liczba osób")
     ap.add_argument("--seed", type=int)
     ap.add_argument("--closed", nargs="*", help="bramy zamknięte od początku, np. Z1 Z2")
+    ap.add_argument("--variant", help="wariant mapy: normalny | remont | czwartek | remont_czwartek (lub własny z YAML)")
+    ap.add_argument("--event", help="zestaw zdarzeń z event_presets w YAML, np. pozar | huk | pakunek")
     ap.add_argument("--tmax", type=float, help="maks. czas od alarmu [s]")
     ap.add_argument("--party", type=float, help="czas fazy imprezy przed alarmem [s]")
     ap.add_argument("--set", action="append", default=[], help="nadpisanie: klucz.podklucz=wartosc")
@@ -62,8 +74,7 @@ def main(argv=None):
 
     cfg, _ = build_cfg(args)
     outdir = args.out or os.path.join(HERE, cfg.output.dir)
-    closed = "_".join(cfg.exits.closed) if cfg.exits.closed else "all"
-    tag = args.tag or f"N{cfg.agents.count}_closed-{closed}_s{cfg.seed}"
+    tag = args.tag or make_tag(cfg)
     map_path = resolve_map(cfg, args.scenario)
 
     def progress(tau, ev, mv, fl, wall):
@@ -74,6 +85,13 @@ def main(argv=None):
     sim = Simulation(cfg, map_path, backend=args.backend, progress=progress,
                      record=bool(cfg.output.video) and not args.no_video)
     print(f"Backend fizyki: {sim.phys.backend}")
+    ar = sim.area
+    print(f"Teren: aktywne {ar['aktywne_m2']:.0f} m2, wyłączone (odcięte) {ar['wylaczone_m2']:.0f} m2; "
+          f"gęstość początkowa {cfg.agents.count / max(ar['aktywne_m2'], 1):.2f} os/m2")
+    for e in sim.events.storms:
+        print(f"Zdarzenie: {e['label']} t={e['t']:.0f}s (cały teren)")
+    for e in sim.events.all:
+        print(f"Zdarzenie: {e['label']} t={e['t']:.0f}s w ({e['xy'][0]:.1f}, {e['xy'][1]:.1f})")
     res = sim.run()
     out = write_outputs(res, outdir, tag)
     print("\n=== PODSUMOWANIE ===")

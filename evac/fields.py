@@ -20,7 +20,8 @@ def _fill_nearest(arr: np.ndarray, valid: np.ndarray) -> np.ndarray:
 class Nav:
     """Pole nawigacji: dla każdej bramy odległość (z karą przy ścianach) i kierunek marszu."""
 
-    def __init__(self, scene, wf, open_flags, cfg):
+    def __init__(self, scene, wf, open_flags, cfg, extra_cost=None):
+        """extra_cost: funkcja (XC, YC) -> dodatkowy mnożnik kosztu komórki (dym, strefy wykluczenia) albo None."""
         self.cs = float(cfg.grid.nav_cell_m)
         self.x0, self.y0 = scene.x0, scene.y0
         self.nx = int(np.ceil(scene.nx * scene.cw / self.cs))
@@ -37,6 +38,8 @@ class Nav:
         self.walk = walk
         wall_cost = float(cfg.exits.wall_cost)
         cell_cost = 1.0 + wall_cost * np.clip((1.2 - dn) / 1.2, 0.0, 1.0)
+        if extra_cost is not None:
+            cell_cost = cell_cost + extra_cost(XC, YC)
 
         idx = -np.ones((self.ny, self.nx), dtype=np.int64)
         n_nodes = int(walk.sum())
@@ -197,6 +200,110 @@ class Smoke:
         ix = np.clip(((x - self.x0) / self.h).astype(int), 0, self.nx - 1)
         iy = np.clip(((y - self.y0) / self.h).astype(int), 0, self.ny - 1)
         return self.c[iy, ix] / self.full
+
+    def snapshot_u8(self) -> np.ndarray:
+        return (np.clip(self.c / self.full, 0, 1) * 255).astype(np.uint8)
+
+
+class SmokeAdv:
+    """Dym - model rozszerzony: adwekcja (wiatr, schemat pod prąd) + dyfuzja + zanik, źródła zmienne w czasie,
+    blokowanie przez budynki i bryły (płot przepuszcza). Stężenie znormalizowane: 1 = `full_conc`."""
+
+    def __init__(self, scene, cfg, sources, wf=None, rng=None):
+        hz = cfg.hazard
+        h = float(cfg.grid.smoke_cell_m)
+        self.h = h
+        self.x0, self.y0 = scene.x0, scene.y0
+        self.nx = int(np.ceil(scene.nx * scene.cw / h))
+        self.ny = int(np.ceil(scene.ny * scene.cw / h))
+        f = int(round(h / scene.cw))
+        if bool(hz.blocked_by_buildings):
+            air = scene.inside | scene.tunnel_mask
+            for pm in scene.pocket_masks:
+                air = air | pm
+            air = air & ~scene.solid_mask
+        else:
+            air = np.ones_like(scene.inside)
+        pad = np.zeros((self.ny * f, self.nx * f))
+        sub = air[: min(scene.ny, self.ny * f), : min(scene.nx, self.nx * f)]
+        pad[: sub.shape[0], : sub.shape[1]] = sub
+        self.mask = (pad.reshape(self.ny, f, self.nx, f).mean(axis=(1, 3)) > 0.5).astype(np.float64)
+        self.D = float(hz.diffusion_m2s)
+        self.rate = float(hz.source_rate)
+        self.decay = float(hz.decay_per_s)
+        self.full = float(hz.full_conc)
+        self.growth = float(hz.growth_s or 0.0)
+        self.burnout = None if hz.burnout_s is None else float(hz.burnout_s)
+        self.rng = rng or np.random.default_rng(0)
+        w = hz.wind
+        ang = self.rng.uniform(0, 2 * np.pi) if bool(w.random_dir) else np.deg2rad(float(w.to_deg))
+        self.wind0 = float(w.speed_mps) * np.array([np.cos(ang), np.sin(ang)])
+        self.wind = self.wind0.copy()
+        self.gust_sd = float(w.gust_sd_mps)
+        self.sources = []      # (j, i, t_start, skala)
+        for s in sources:
+            self.sources.append((int((s["xy"][1] - self.y0) / h), int((s["xy"][0] - self.x0) / h),
+                                 float(s.get("t", 0.0)), float(s.get("scale", 1.0))))
+        self.c = np.zeros((self.ny, self.nx))
+        self.t = 0.0
+
+    def _src_factor(self, age):
+        if age < 0:
+            return 0.0
+        if self.burnout is not None and age > self.burnout:
+            return 0.0
+        return 1.0 if self.growth <= 0 else min(1.0, (age / self.growth) ** 2)
+
+    def step(self, dt: float, tau: float | None = None):
+        if tau is not None:
+            self.t = tau
+        if self.gust_sd > 0:      # porywy: błądzenie losowe z powrotem do wiatru średniego
+            self.wind += -0.2 * (self.wind - self.wind0) * dt + self.gust_sd * np.sqrt(dt) * self.rng.normal(size=2)
+        ux, uy = self.wind
+        dt_max = min(0.2 * self.h ** 2 / max(self.D, 1e-9), 0.4 * self.h / max(abs(ux) + abs(uy), 1e-9))
+        nsub = max(1, int(np.ceil(dt / dt_max)))
+        s = dt / nsub
+        m, h = self.mask, self.h
+        fx = m[:, 1:] * m[:, :-1]
+        fy = m[1:, :] * m[:-1, :]
+        for _ in range(nsub):
+            c = self.c
+            for j, i, t0, scale in self.sources:
+                q = self.rate * scale * self._src_factor(self.t - t0) * s
+                if q > 0:
+                    c[max(0, j - 1): j + 2, max(0, i - 1): i + 2] += q * m[max(0, j - 1): j + 2, max(0, i - 1): i + 2]
+            dc = np.zeros_like(c)
+            # dyfuzja (bez strumienia przez ściany)
+            gx = (c[:, 1:] - c[:, :-1]) * fx
+            gy = (c[1:, :] - c[:-1, :]) * fy
+            k = self.D * s / h ** 2
+            dc[:, :-1] += k * gx; dc[:, 1:] -= k * gx
+            dc[:-1, :] += k * gy; dc[1:, :] -= k * gy
+            # adwekcja pod prąd (strumień przez ścianki komórek, tylko między komórkami "powietrza")
+            a = s / h
+            flx = (ux * c[:, :-1] if ux >= 0 else ux * c[:, 1:]) * fx
+            fly = (uy * c[:-1, :] if uy >= 0 else uy * c[1:, :]) * fy
+            dc[:, :-1] -= a * flx; dc[:, 1:] += a * flx
+            dc[:-1, :] -= a * fly; dc[1:, :] += a * fly
+            c += dc
+            c *= (1.0 - self.decay * s)
+            np.clip(c, 0.0, None, out=c)
+            self.t += s
+
+    def _idx(self, x, y):
+        ix = np.clip(((np.asarray(x) - self.x0) / self.h).astype(int), 0, self.nx - 1)
+        iy = np.clip(((np.asarray(y) - self.y0) / self.h).astype(int), 0, self.ny - 1)
+        return iy, ix
+
+    def sample(self, x, y) -> np.ndarray:
+        iy, ix = self._idx(x, y)
+        return self.c[iy, ix] / self.full
+
+    def gradient(self, x, y):
+        """Gradient znormalizowanego stężenia (do siły odpychającej)."""
+        gy, gx = np.gradient(ndimage.uniform_filter(self.c, 3) / self.full, self.h)
+        iy, ix = self._idx(x, y)
+        return gx[iy, ix], gy[iy, ix]
 
     def snapshot_u8(self) -> np.ndarray:
         return (np.clip(self.c / self.full, 0, 1) * 255).astype(np.uint8)

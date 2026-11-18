@@ -1,0 +1,89 @@
+# Etap 2: nowa mapa (8 bram, płot L1) + wszystkie moduły rozszerzone włączone.
+# Wartości oznaczone (wstępne) są ILUSTRACYJNE i niekalibrowane - patrz ETAP2_WDROZENIE.md.
+#
+#   python run.py scenarios/etap2.yaml                               # pożar od grilla, wariant normalny
+#   python run.py scenarios/etap2.yaml --variant remont_czwartek     # zamknięte W2, W4, Z1, Z2
+#   python run.py scenarios/etap2.yaml --event huk --seed 7          # inne zdarzenie, inne miejsce
+#   python run_matrix.py scenarios/etap2.yaml --n 3000 6000 10000 --workers 4
+map: mapa_ms.json                # mapa zespołu - można podmieniać bez zmian w kodzie
+map_extras: mapa_dodatki.json    # tunele W1-W3, ławki, PRZYKŁADOWE grille i drzewa
+seed: 42
+variant: normalny              # normalny | remont | czwartek | remont_czwartek  (--variant)
+
+map_options:
+  gate_frame_depth_m: 0.8        # futryny: korytarz 0,8 m za bramami bez tunelu (W4-W6, Z1, Z2)
+  fence_gate: {enabled: false, xy: null, width_m: 2.0, open: false}   # przejście w płocie L1 (domyślnie brak)
+
+# warianty mapy (2x2) są wbudowane: normalny / remont / czwartek / remont_czwartek  (--variant)
+
+agents:
+  count: 3000                    # dotyczy części AKTYWNEJ (północnej); porównanie: 6000, 10000
+  party_phase_s: 30
+  clusters: {share: 0.30, sigma_m: 5.0, benches_weight: 0.05}   # skupiska startowe przy grillach (wstępne)
+
+alarm:
+  mode: staged
+  info_speed_mps: 3.0            # (wstępne) prędkość fali informacji
+  wave_range_m: 60               # (wstępne) zasięg bezpośredniego zauważenia; dalej: sąsiedzi, dym, komunikat
+  global_delay_s: [60, 120]      # (wstępne) komunikat globalny
+  decide_delay_s: [1, 8]
+  prep_delay_s: [0, 6]
+
+behaviour:
+  v_max_mps: 1.9                 # (wstępne, było 3.0) prędkość pożądana przy panice
+  ignore_alarm_share: 0.20
+  panic_initial_share: 0.05
+  gawkers: {share: 0.05}         # (wstępne) odsetek gapiów - do ustalenia
+  density_speed: {enabled: true} # prędkość maleje z gęstością -> realistyczny przepływ przez bramy
+
+exits:
+  choice:
+    mode: softmax
+    temperature_m: 12.0
+    knowledge: {default: 0.95, W6: 0.15}    # (wstępne) W6 zna 15% osób
+    width_bonus_m: 10.0                     # (założenie) szeroka brama atrakcyjniejsza niż furtka 1 m
+
+injury:
+  mode: dose
+  # Dawka zakotwiczona w dwóch punktach z literatury o zgnieceniach w tłumie (Fruin 1993; Hopkins i in. 1993,
+  # za testami Evansa i Haydena) - PODANE Z PAMIĘCI, sprawdzić w źródle przed cytowaniem:
+  #   ok. 6227 N na klatkę piersiową -> zgon po ok. 15 s;  ok. 1112 N -> po 4-6 min (przyjęto 300 s).
+  # Dla D = czas x (nacisk - próg) oba punkty dają próg ok. 843 N i dawkę krytyczną ok. 80 800 N*s;
+  # po podzieleniu przez obwód ciała (2*pi*0,3 m), jak w definicji ciśnienia Helbinga:
+  dose_threshold_Npm: 450        # próg narastania dawki [N/m]
+  dose_severe_Nspm: 43000        # ciężko ranny (leży, nie wstaje)
+  dose_light_Nspm: 10000         # nieużywane, gdy rib_fracture_Npm > 0 (lekki uraz = próg złamania żeber, ok. 3 kN = 1600 N/m)
+  trample_dose_Nspm_per_s: 400   # ciężar jednej osoby (ok. 800 N) / obwód ciała, na każdą stojącą na leżącym
+  # threshold_Npm (1600, Helbing 2000) nadal decyduje o przewróceniu
+
+hazard:
+  model: advection
+  wind: {speed_mps: 0.8, to_deg: 0, random_dir: true, gust_sd_mps: 0.1}   # kierunek losowany z ziarna
+  growth_s: 60
+  decay_per_s: 0.02              # (założenie) dym unosi się do góry - czas przebywania przy ziemi ok. 50 s
+
+events:                          # domyślne zdarzenie; --event wybiera zestaw z event_presets
+  - {type: fire, t_s: 0, at: grill}
+
+event_presets:
+  pozar:    [{type: fire, t_s: 0, at: grill}]
+  huk:      [{type: bang, t_s: 0, at: random, panic_peak: 0.7, scale_m: 40}]
+  pakunek:  [{type: package, t_s: 0, at: random, r0_m: 8, growth_mps: 0.25, r_max_m: 40}]
+  burza:    [{type: storm, t_s: 0, hurry: 1.25, shelter_bonus_m: 30}]   # wszyscy szukają schronienia
+  # po terminie (działają, ale nietestowane szerzej):
+  pozar_bez_naglosnienia: [{type: fire, t_s: 0, at: grill}, {type: pa_failure}]
+  pozar_blokada_W1:       [{type: fire, t_s: 0, at: grill}, {type: gate_block, t_s: 45, gate: W1}]
+  # stałe miejsce jak w etapie 1:  [{type: fire, t_s: 0, xy: [80, 219]}]
+
+# --- scenariusze dodatkowe (domyślnie wyłączone; włączenie: wpis tutaj albo --set) ---
+stewards:                        # służby porządkowe przy bramach: informują, przekierowują, uspokajają
+  enabled: false                 #   --set stewards.enabled=true
+  gates: all                     #   albo lista, np. [W1, W4, Z1]
+# wracanie po znajomych z grupy (ruch pod prąd):  --set behaviour.group_return.share=0.15
+
+output:
+  heatmap: true
+  # underlay: {path: orto.png, extent: [xmin, xmax, ymin, ymax], alpha: 0.6}   # podkład (ortofotomapa)
+
+sim:
+  t_max_s: 900
