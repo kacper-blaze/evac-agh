@@ -1,1743 +1,262 @@
-{
- "nazwa": "Miasteczko Studenckie AGH – obszar symulacji",
- "opis": "Obrys narysowany przez użytkownika na zdjęciu satelitarnym, dopasowany do obrysów budynków i wyposażenia z OpenStreetMap (stan 03.11.2026). Czerwony = granica (ściana), niebieski = wyjścia na zewnętrznych końcach tuneli, żółty = przejścia, które bywają zamykane.",
- "uklad": {
-  "jednostki": "metry",
-  "x": "na wschód",
-  "y": "na północ",
-  "epsg": 2180,
-  "poczatek_epsg2180": [
-   564758,
-   244832
-  ],
-  "przeliczenie": "X_2180 = x + poczatek[0], Y_2180 = y + poczatek[1]"
- },
- "granica": [
-  [
-   9.53,
-   65.79
-  ],
-  [
-   3.47,
-   65.03
-  ],
-  [
-   6.94,
-   81.0
-  ],
-  [
-   8.49,
-   80.65
-  ],
-  [
-   8.41,
-   80.25
-  ],
-  [
-   14.79,
-   78.86
-  ],
-  [
-   15.27,
-   81.06
-  ],
-  [
-   25.35,
-   78.87
-  ],
-  [
-   29.98,
-   100.28
-  ],
-  [
-   19.03,
-   102.73
-  ],
-  [
-   18.0,
-   97.96
-  ],
-  [
-   18.53,
-   97.86
-  ],
-  [
-   16.62,
-   89.16
-  ],
-  [
-   9.06,
-   90.77
-  ],
-  [
-   17.43,
-   129.49
-  ],
-  [
-   25.77,
-   160.09
-  ],
-  [
-   32.9,
-   158.48
-  ],
-  [
-   48.47,
-   228.98
-  ],
-  [
-   54.67,
-   224.03
-  ],
-  [
-   54.58,
-   223.48
-  ],
-  [
-   57.97,
-   222.72
-  ],
-  [
-   63.37,
-   218.69
-  ],
-  [
-   65.34,
-   221.07
-  ],
-  [
-   70.03,
-   242.48
-  ],
-  [
-   99.71,
-   235.97
-  ],
-  [
-   93.68,
-   208.99
-  ],
-  [
-   96.77,
-   205.44
-  ],
-  [
-   109.27,
-   200.85
-  ],
-  [
-   108.64,
-   191.99
-  ],
-  [
-   110.86,
-   188.06
-  ],
-  [
-   116.6,
-   187.44
-  ],
-  [
-   114.65,
-   178.96
-  ],
-  [
-   114.75,
-   178.91
-  ],
-  [
-   110.49,
-   159.17
-  ],
-  [
-   110.41,
-   159.18
-  ],
-  [
-   106.48,
-   140.63
-  ],
-  [
-   105.44,
-   136.81
-  ],
-  [
-   104.18,
-   131.28
-  ],
-  [
-   99.61,
-   109.46
-  ],
-  [
-   98.31,
-   103.7
-  ],
-  [
-   95.71,
-   94.36
-  ],
-  [
-   87.89,
-   96.27
-  ],
-  [
-   87.97,
-   96.65
-  ],
-  [
-   80.89,
-   98.18
-  ],
-  [
-   80.83,
-   98.0
-  ],
-  [
-   79.54,
-   98.31
-  ],
-  [
-   79.58,
-   98.46
-  ],
-  [
-   72.52,
-   100.03
-  ],
-  [
-   71.35,
-   99.39
-  ],
-  [
-   61.7,
-   51.5
-  ],
-  [
-   64.88,
-   48.68
-  ],
-  [
-   68.85,
-   49.94
-  ],
-  [
-   64.55,
-   28.05
-  ],
-  [
-   57.56,
-   29.5
-  ],
-  [
-   58.31,
-   33.0
-  ],
-  [
-   58.81,
-   32.88
-  ],
-  [
-   58.9,
-   33.32
-  ],
-  [
-   58.77,
-   33.38
-  ],
-  [
-   59.74,
-   37.26
-  ],
-  [
-   49.1,
-   39.65
-  ],
-  [
-   44.41,
-   18.53
-  ],
-  [
-   55.1,
-   16.24
-  ],
-  [
-   55.23,
-   16.83
-  ],
-  [
-   54.76,
-   16.92
-  ],
-  [
-   56.71,
-   25.72
-  ],
-  [
-   63.8,
-   24.25
-  ],
-  [
-   59.36,
-   1.68
-  ],
-  [
-   1.1,
-   14.74
-  ],
-  [
-   11.82,
-   63.18
-  ]
- ],
- "granica_latlon": [
-  [
-   50.0678079,
-   19.9052796
-  ],
-  [
-   50.0678018,
-   19.9051948
-  ],
-  [
-   50.067945,
-   19.905246
-  ],
-  [
-   50.0679417,
-   19.9052676
-  ],
-  [
-   50.0679381,
-   19.9052664
-  ],
-  [
-   50.0679249,
-   19.9053553
-  ],
-  [
-   50.0679447,
-   19.9053624
-  ],
-  [
-   50.0679239,
-   19.9055029
-  ],
-  [
-   50.068116,
-   19.9055713
-  ],
-  [
-   50.0681392,
-   19.9054186
-  ],
-  [
-   50.0680964,
-   19.9054034
-  ],
-  [
-   50.0680954,
-   19.9054108
-  ],
-  [
-   50.0680174,
-   19.9053827
-  ],
-  [
-   50.0680327,
-   19.9052773
-  ],
-  [
-   50.0683801,
-   19.9054008
-  ],
-  [
-   50.0686544,
-   19.9055226
-  ],
-  [
-   50.0686392,
-   19.9056219
-  ],
-  [
-   50.0692717,
-   19.9058515
-  ],
-  [
-   50.0692265,
-   19.9059373
-  ],
-  [
-   50.0692215,
-   19.9059359
-  ],
-  [
-   50.0692143,
-   19.9059832
-  ],
-  [
-   50.0691775,
-   19.906058
-  ],
-  [
-   50.0691987,
-   19.9060859
-  ],
-  [
-   50.0693908,
-   19.9061551
-  ],
-  [
-   50.069329,
-   19.9065688
-  ],
-  [
-   50.0690869,
-   19.9064799
-  ],
-  [
-   50.0690546,
-   19.9065225
-  ],
-  [
-   50.069012,
-   19.9066964
-  ],
-  [
-   50.0689324,
-   19.9066861
-  ],
-  [
-   50.0688968,
-   19.9067165
-  ],
-  [
-   50.0688906,
-   19.9067966
-  ],
-  [
-   50.0688145,
-   19.9067679
-  ],
-  [
-   50.068814,
-   19.9067693
-  ],
-  [
-   50.0686369,
-   19.9067064
-  ],
-  [
-   50.068637,
-   19.9067053
-  ],
-  [
-   50.0684706,
-   19.9066472
-  ],
-  [
-   50.0684363,
-   19.9066321
-  ],
-  [
-   50.0683867,
-   19.9066135
-  ],
-  [
-   50.0681909,
-   19.9065459
-  ],
-  [
-   50.0681393,
-   19.9065268
-  ],
-  [
-   50.0680555,
-   19.9064889
-  ],
-  [
-   50.0680736,
-   19.9063799
-  ],
-  [
-   50.068077,
-   19.9063811
-  ],
-  [
-   50.0680915,
-   19.9062824
-  ],
-  [
-   50.0680899,
-   19.9062815
-  ],
-  [
-   50.0680928,
-   19.9062636
-  ],
-  [
-   50.0680942,
-   19.9062641
-  ],
-  [
-   50.0681091,
-   19.9061657
-  ],
-  [
-   50.0681034,
-   19.9061493
-  ],
-  [
-   50.0676737,
-   19.9060063
-  ],
-  [
-   50.067648,
-   19.9060503
-  ],
-  [
-   50.0676589,
-   19.906106
-  ],
-  [
-   50.0674624,
-   19.9060422
-  ],
-  [
-   50.0674762,
-   19.9059447
-  ],
-  [
-   50.0675077,
-   19.9059558
-  ],
-  [
-   50.0675065,
-   19.9059628
-  ],
-  [
-   50.0675105,
-   19.9059641
-  ],
-  [
-   50.067511,
-   19.9059623
-  ],
-  [
-   50.0675458,
-   19.9059765
-  ],
-  [
-   50.0675685,
-   19.9058282
-  ],
-  [
-   50.067379,
-   19.9057591
-  ],
-  [
-   50.0673572,
-   19.9059081
-  ],
-  [
-   50.0673625,
-   19.90591
-  ],
-  [
-   50.0673634,
-   19.9059034
-  ],
-  [
-   50.0674423,
-   19.9059322
-  ],
-  [
-   50.0674283,
-   19.906031
-  ],
-  [
-   50.0672258,
-   19.9059652
-  ],
-  [
-   50.0673496,
-   19.9051532
-  ],
-  [
-   50.0677842,
-   19.9053112
-  ]
- ],
- "wyjscia": [
-  {
-   "id": "W1",
-   "opis": "przejście przez budynek – Bonus",
-   "szerokosc_m": 5.4,
-   "otwarte": true,
-   "odcinek": [
-    [
-      120.38,
-      140.41
-    ],
-    [
-      119.11,
-      135.16
-    ]
-   ],
-   "latlon_srodka": [
-     50.0684435,
-     19.9068321
-   ]
-  },
-  {
-   "id": "W2",
-   "opis": "przejście przez budynek – Bratek",
-   "szerokosc_m": 3.6,
-   "otwarte": true,
-   "odcinek": [
-    [
-      3.07,
-      128.52
-    ],
-    [
-      3.83,
-      132.04
-    ]
-   ],
-   "latlon_srodka": [
-     50.0683887,
-     19.9052055
-   ]
-  },
-  {
-   "id": "W3",
-   "opis": "przejście przez budynek – Bonus",
-   "szerokosc_m": 5.4,
-   "otwarte": true,
-   "odcinek": [
-    [
-      113.47,
-      109.32
-    ],
-    [
-      112.33,
-      104.05
-    ]
-   ],
-   "latlon_srodka": [
-     50.0681645,
-     19.9067312
-   ]
-  }
- ],
- "tunele": [
-  {
-   "id": "TW1",
-   "wyjscie": "W1",
-   "opis": "przejście przez DS Bonus – Autostrada MS AGH",
-   "zrodlo": "OpenStreetMap way 335454509",
-   "aktywny": true,
-   "obrys": [
-    [107.04, 143.27],
-    [105.77, 138.02],
-    [119.11, 135.16],
-    [120.38, 140.41]
-   ]
-  },
-  {
-   "id": "TW2",
-   "wyjscie": "W2",
-   "opis": "przejście przez DS Bratek",
-   "zrodlo": "OpenStreetMap way 244745080",
-   "aktywny": true,
-   "obrys": [
-    [16.6, 125.66],
-    [17.36, 129.18],
-    [3.83, 132.04],
-    [3.07, 128.52]
-   ]
-  },
-  {
-   "id": "TW3",
-   "wyjscie": "W3",
-   "opis": "przejście przez DS Bonus",
-   "zrodlo": "OpenStreetMap way 244745077",
-   "aktywny": true,
-   "obrys": [
-    [100.16, 112.1],
-    [99.02, 106.83],
-    [112.33, 104.05],
-    [113.47, 109.32]
-   ]
-  }
- ],
- "przejscia_zamykane": [
-  {
-   "id": "Z1",
-   "opis": "przejście zamykane – przy Filutek",
-   "szerokosc_m": 1.35,
-   "otwarte": true,
-   "odcinek": [
-    [
-     48.86,
-     228.67
-    ],
-    [
-     49.92,
-     227.83
-    ]
-   ],
-   "latlon_srodka": [
-    50.069265,
-    19.9058642
-   ]
-  },
-  {
-   "id": "Z2",
-   "opis": "przejście zamykane – przy Promyk / Bonus",
-   "szerokosc_m": 7.45,
-   "otwarte": true,
-   "odcinek": [
-    [
-     95.42,
-     94.43
-    ],
-    [
-     88.18,
-     96.2
-    ]
-   ],
-   "latlon_srodka": [
-    50.0680646,
-    19.9064344
-   ]
-  }
- ],
- "przeszkody": [
-  {
-   "id": "OSM-FITNESS-1246419094",
-   "rodzaj": "siłownia zewnętrzna",
-   "zrodlo": "OpenStreetMap way 1246419094",
-   "powod": "obszar niedostępny w czwartek",
-   "aktywna": true,
-   "obrys": [
-    [27.9, 13.3],
-    [29.5, 20.39],
-    [26.47, 21.14],
-    [27.21, 24.16],
-    [21.83, 25.46],
-    [20.94, 21.85],
-    [16.11, 23.02],
-    [16.96, 26.51],
-    [14.72, 27.06],
-    [11.44, 13.66],
-    [18.11, 12.24],
-    [18.76, 15.25],
-    [22.88, 14.38],
-    [22.23, 11.36],
-    [24.28, 10.93],
-    [24.93, 13.94]
-   ]
-  },
-  {
-   "id": "OSM-VOLLEYBALL-641918099",
-   "rodzaj": "boisko do siatkówki",
-   "zrodlo": "OpenStreetMap way 641918099",
-   "powod": "obszar niedostępny w czwartek",
-   "aktywna": true,
-   "obrys": [
-    [46.43, 76.06],
-    [40.19, 47.92],
-    [54.88, 44.58],
-    [61.16, 72.74]
-   ]
-  },
-  {
-   "id": "T1",
-   "rodzaj": "toi-toi",
-   "aktywna": true,
-   "wymiary_m": [
-    1.2,
-    1.2,
-    2.35
-   ],
-   "obrys": [
-    [
-     86.09,
-     219.28
-    ],
-    [
-     87.26,
-     219.02
-    ],
-    [
-     87.52,
-     220.19
-    ],
-    [
-     86.35,
-     220.45
-    ]
-   ]
-  },
-  {
-   "id": "T2",
-   "rodzaj": "toi-toi",
-   "aktywna": true,
-   "wymiary_m": [
-    1.2,
-    1.2,
-    2.35
-   ],
-   "obrys": [
-    [
-     87.26,
-     219.02
-    ],
-    [
-     88.43,
-     218.76
-    ],
-    [
-     88.69,
-     219.93
-    ],
-    [
-     87.52,
-     220.19
-    ]
-   ]
-  },
-  {
-   "id": "T3",
-   "rodzaj": "toi-toi",
-   "aktywna": true,
-   "wymiary_m": [
-    1.2,
-    1.2,
-    2.35
-   ],
-   "obrys": [
-    [
-     88.43,
-     218.76
-    ],
-    [
-     89.61,
-     218.5
-    ],
-    [
-     89.86,
-     219.67
-    ],
-    [
-     88.69,
-     219.93
-    ]
-   ]
-  },
-  {
-   "id": "T4",
-   "rodzaj": "toi-toi",
-   "aktywna": true,
-   "wymiary_m": [
-    1.2,
-    1.2,
-    2.35
-   ],
-   "obrys": [
-    [
-     89.61,
-     218.5
-    ],
-    [
-     90.78,
-     218.24
-    ],
-    [
-     91.04,
-     219.42
-    ],
-    [
-     89.86,
-     219.67
-    ]
-   ]
-  },
-  {
-   "id": "T5",
-   "rodzaj": "toi-toi",
-   "aktywna": true,
-   "wymiary_m": [
-    1.2,
-    1.2,
-    2.35
-   ],
-   "obrys": [
-    [
-     90.78,
-     218.24
-    ],
-    [
-     91.95,
-     217.99
-    ],
-    [
-     92.21,
-     219.16
-    ],
-    [
-     91.04,
-     219.42
-    ]
-   ]
-  },
-  {
-   "id": "T6",
-   "rodzaj": "toi-toi",
-   "aktywna": true,
-   "wymiary_m": [
-    1.2,
-    1.2,
-    2.35
-   ],
-   "obrys": [
-    [
-     91.95,
-     217.99
-    ],
-    [
-     93.12,
-     217.73
-    ],
-    [
-     93.38,
-     218.9
-    ],
-    [
-     92.21,
-     219.16
-    ]
-   ]
-  },
-  {
-   "id": "T7",
-   "rodzaj": "toi-toi",
-   "aktywna": true,
-   "wymiary_m": [
-    1.2,
-    1.2,
-    2.35
-   ],
-   "obrys": [
-    [
-     93.12,
-     217.73
-    ],
-    [
-     94.29,
-     217.47
-    ],
-    [
-     94.55,
-     218.64
-    ],
-    [
-     93.38,
-     218.9
-    ]
-   ]
-  },
-  {
-   "id": "T8",
-   "rodzaj": "toi-toi",
-   "aktywna": true,
-   "wymiary_m": [
-    1.2,
-    1.2,
-    2.35
-   ],
-   "obrys": [
-    [
-     94.29,
-     217.47
-    ],
-    [
-     95.47,
-     217.21
-    ],
-    [
-     95.72,
-     218.38
-    ],
-    [
-     94.55,
-     218.64
-    ]
-   ]
-  }
- ],
- "lawki": [
-  {"osm_id": 10043739082, "xy": [68.95, 209.87]},
-  {"osm_id": 10043739084, "xy": [68.75, 176.99]},
-  {"osm_id": 10043739085, "xy": [69.56, 180.23]},
-  {"osm_id": 10043739086, "xy": [70.61, 185.44]},
-  {"osm_id": 10043739087, "xy": [71.37, 189.09]},
-  {"osm_id": 10043739089, "xy": [78.64, 148.04]},
-  {"osm_id": 10043739092, "xy": [68.16, 119.47]},
-  {"osm_id": 10043739093, "xy": [64.4, 122.52]},
-  {"osm_id": 10043739094, "xy": [60.95, 125.38]},
-  {"osm_id": 10043739095, "xy": [57.96, 130.62]},
-  {"osm_id": 10043739096, "xy": [58.87, 134.55]},
-  {"osm_id": 10043739097, "xy": [60.53, 142.05]},
-  {"osm_id": 10043739098, "xy": [57.53, 145.46]},
-  {"osm_id": 10043739099, "xy": [56.65, 141.38]},
-  {"osm_id": 10043739100, "xy": [55.86, 137.66]},
-  {"osm_id": 10043739141, "xy": [63.52, 154.76]},
-  {"osm_id": 10043739142, "xy": [64.27, 158.27]},
-  {"osm_id": 10043739143, "xy": [64.77, 177.12]},
-  {"osm_id": 10043739144, "xy": [63.52, 171.45]},
-  {"osm_id": 10043739145, "xy": [63.72, 186.78]},
-  {"osm_id": 10043739146, "xy": [66.15, 182.98]},
-  {"osm_id": 10043739148, "xy": [86.73, 169.33]},
-  {"osm_id": 10043739149, "xy": [85.61, 165.24]},
-  {"osm_id": 10043739150, "xy": [85.65, 197.56]},
-  {"osm_id": 10043739151, "xy": [45.59, 92.73]},
-  {"osm_id": 10043739152, "xy": [54.63, 115.66]},
-  {"osm_id": 10043739153, "xy": [53.27, 126.14]},
-  {"osm_id": 10043739154, "xy": [28.17, 127.44]},
-  {"osm_id": 10043739155, "xy": [44.17, 127.07]},
-  {"osm_id": 10043739156, "xy": [50.18, 129.35]},
-  {"osm_id": 10043739157, "xy": [66.62, 139.75]},
-  {"osm_id": 10043739158, "xy": [70.07, 141.22]},
-  {"osm_id": 10043739159, "xy": [61.71, 137.75]},
-  {"osm_id": 10043739160, "xy": [74.41, 142.48]},
-  {"osm_id": 10043739161, "xy": [81.59, 143.2]},
-  {"osm_id": 10043739162, "xy": [83.19, 146.91]},
-  {"osm_id": 10043739163, "xy": [74.2, 149.01]},
-  {"osm_id": 10043739164, "xy": [64.28, 151.66]},
-  {"osm_id": 10047179265, "xy": [90.03, 185.51]},
-  {"osm_id": 10047179266, "xy": [90.86, 189.14]},
-  {"osm_id": 10059365265, "xy": [59.86, 187.67]},
-  {"osm_id": 10059365271, "xy": [60.05, 156.2]},
-  {"osm_id": 10059365273, "xy": [68.9, 150.48]},
-  {"osm_id": 10059365274, "xy": [49.02, 108.03]},
-  {"osm_id": 10059365277, "xy": [39.73, 124.56]},
-  {"osm_id": 10059365278, "xy": [32.67, 126.22]},
-  {"osm_id": 11253803192, "xy": [39.19, 153.36]},
-  {"osm_id": 11253803193, "xy": [45.34, 151.93]},
-  {"osm_id": 11253803194, "xy": [57.38, 149.15]},
-  {"osm_id": 11253803195, "xy": [52.22, 150.32]},
-  {"osm_id": 11587626723, "xy": [70.92, 145.94]},
-  {"osm_id": 11587626726, "xy": [56.45, 188.58]},
-  {"osm_id": 11587626730, "xy": [89.16, 214.02]},
-  {"osm_id": 11587626731, "xy": [88.05, 208.95]},
-  {"osm_id": 11587626732, "xy": [86.65, 202.49]},
-  {"osm_id": 11587626733, "xy": [90.54, 145.3]},
-  {"osm_id": 11587626737, "xy": [75.67, 116.6]},
-  {"osm_id": 11911971476, "xy": [58.98, 206.47]},
-  {"osm_id": 11911971477, "xy": [58.21, 202.67]},
-  {"osm_id": 11911971478, "xy": [57.31, 198.68]},
-  {"osm_id": 11911971479, "xy": [56.42, 195.02]},
-  {"osm_id": 11911971480, "xy": [104.69, 185.19]},
-  {"osm_id": 11911971481, "xy": [98.5, 182.26]},
-  {"osm_id": 11911971482, "xy": [92.03, 179.31]},
-  {"osm_id": 11911971486, "xy": [65.41, 163.65]},
-  {"osm_id": 11911971487, "xy": [61.5, 162.7]},
-  {"osm_id": 11911971488, "xy": [55.82, 153.55]},
-  {"osm_id": 11911971489, "xy": [65.6, 147.19]},
-  {"osm_id": 11911971491, "xy": [50.48, 122.2]},
-  {"osm_id": 11911971492, "xy": [48.46, 135.36]},
-  {"osm_id": 11911971493, "xy": [43.86, 139.08]},
-  {"osm_id": 11911971501, "xy": [59.33, 153.21]},
-  {"osm_id": 11911971507, "xy": [90.85, 194.67]},
-  {"osm_id": 11911971518, "xy": [48.93, 118.6]},
-  {"osm_id": 11911971519, "xy": [45.01, 119.51]},
-  {"osm_id": 11911971520, "xy": [38.74, 120.89]},
-  {"osm_id": 11911971521, "xy": [33.07, 122.12]},
-  {"osm_id": 11911971522, "xy": [28.21, 123.12]},
-  {"osm_id": 11911971524, "xy": [47.82, 85.36]},
-  {"osm_id": 11911971534, "xy": [44.58, 71.3]},
-  {"osm_id": 11911971535, "xy": [43.24, 64.63]},
-  {"osm_id": 11911971536, "xy": [42.0, 59.65]},
-  {"osm_id": 11911971537, "xy": [40.51, 52.61]},
-  {"osm_id": 11911971538, "xy": [36.26, 53.47]},
-  {"osm_id": 11911971539, "xy": [35.48, 50.32]},
-  {"osm_id": 11911971540, "xy": [31.83, 33.72]},
-  {"osm_id": 11911971541, "xy": [31.18, 30.74]},
-  {"osm_id": 11911971547, "xy": [53.32, 110.25]},
-  {"osm_id": 11911971549, "xy": [50.2, 113.44]},
-  {"osm_id": 11911971550, "xy": [51.84, 103.41]},
-  {"osm_id": 11911971551, "xy": [49.8, 93.77]},
-  {"osm_id": 11911971553, "xy": [39.09, 142.93]},
-  {"osm_id": 11911971554, "xy": [35.22, 146.13]},
-  {"osm_id": 12239565399, "xy": [31.57, 12.93]},
-  {"osm_id": 12853955866, "xy": [47.63, 102.13]},
-  {"osm_id": 12853983326, "xy": [55.48, 191.14]}
- ],
- "zalozenia": {
-  "szerokosc_drzwi_m": 0.9,
-  "szerokosc_wjazdu_dla_wozka_m": 0.9,
-  "Z1": "1.5 x drzwi",
-  "W2": "4 x wjazd dla wózka",
-  "W1, W3": "1.5 x W2",
-  "uwaga": "0.90 m = minimalna szerokość drzwi/przejścia dostępnego dla wózka wg polskich warunków technicznych; zmień, jeśli mierzyłeś inaczej",
-  "toi_toi": "TOI Fresh: podstawa 120 x 120 cm, wysokość 235 cm (toitoi.pl); 8 kabin jedna przy drugiej wzdłuż północnej krawędzi boiska, dosunięte do granicy (ściany)",
-  "obiekty_niedostepne": "Siłownia zewnętrzna i boisko do siatkówki zamknięte jako przeszkody na czwartek.",
-  "lawki": "Punkty amenity=bench z OpenStreetMap wewnątrz granicy; w symulacji kierunkowo neutralny obrys o promieniu 0.45 m.",
-  "tunele": "Osie przejść budynkowych z OpenStreetMap; wyjścia W1-W3 przeniesione na ich zewnętrzne końce."
- },
- "chodniki": [
-  {
-   "id": "C1",
-   "nazwa": "",
-   "szerokosc_m": 1.5,
-   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
-   "os": [
-    [
-     69.87,
-     116.01
-    ],
-    [
-     56.66,
-     126.52
-    ],
-    [
-     55.49,
-     128.39
-    ],
-    [
-     51.96,
-     131.13
-    ],
-    [
-     31.09,
-     147.95
-    ],
-    [
-     28.32,
-     153.46
-    ]
-   ]
-  },
-  {
-   "id": "C2",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     84.28,
-     112.86
-    ],
-    [
-     98.34,
-     109.73
-    ],
-    [
-     99.61,
-     109.46
-    ]
-   ]
-  },
-  {
-   "id": "C3",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     57.61,
-     137.09
-    ],
-    [
-     78.73,
-     146.06
-    ]
-   ]
-  },
-  {
-   "id": "C4",
-   "nazwa": "",
-   "szerokosc_m": 1.5,
-   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
-   "os": [
-    [
-     56.72,
-     133.56
-    ],
-    [
-     51.96,
-     131.13
-    ],
-    [
-     33.67,
-     124.03
-    ]
-   ]
-  },
-  {
-   "id": "C5",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     64.65,
-     167.77
-    ],
-    [
-     70.7,
-     196.59
-    ],
-    [
-     70.89,
-     197.82
-    ],
-    [
-     73.16,
-     207.41
-    ],
-    [
-     60.5,
-     210.39
-    ],
-    [
-     55.73,
-     216.23
-    ]
-   ]
-  },
-  {
-   "id": "C6",
-   "nazwa": "",
-   "szerokosc_m": 2.5,
-   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
-   "os": [
-    [
-     64.65,
-     167.77
-    ],
-    [
-     38.81,
-     155.42
-    ]
-   ]
-  },
-  {
-   "id": "C7",
-   "nazwa": "",
-   "szerokosc_m": 3.0,
-   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
-   "os": [
-    [
-     28.36,
-     8.63
-    ],
-    [
-     28.39,
-     8.78
-    ],
-    [
-     30.99,
-     19.17
-    ],
-    [
-     39.73,
-     58.15
-    ],
-    [
-     43.87,
-     76.62
-    ],
-    [
-     46.96,
-     89.9
-    ],
-    [
-     53.53,
-     119.59
-    ],
-    [
-     55.49,
-     128.39
-    ],
-    [
-     56.72,
-     133.56
-    ],
-    [
-     57.61,
-     137.09
-    ],
-    [
-     60.52,
-     150.32
-    ]
-   ]
-  },
-  {
-   "id": "C8",
-   "nazwa": "Autostrada MS AGH",
-   "szerokosc_m": 3.0,
-   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
-   "os": [
-    [
-     25.06,
-     157.48
-    ],
-    [
-     26.19,
-     157.24
-    ],
-    [
-     28.94,
-     156.69
-    ],
-    [
-     33.59,
-     156.67
-    ],
-    [
-     38.81,
-     155.42
-    ],
-    [
-     60.52,
-     150.32
-    ],
-    [
-     78.73,
-     146.06
-    ],
-    [
-     105.14,
-     139.92
-    ],
-    [
-     106.48,
-     140.63
-    ]
-   ]
-  },
-  {
-   "id": "C9",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     109.98,
-     189.59
-    ],
-    [
-     97.72,
-     192.54
-    ],
-    [
-     91.51,
-     192.73
-    ],
-    [
-     83.83,
-     194.65
-    ],
-    [
-     70.89,
-     197.82
-    ]
-   ]
-  },
-  {
-   "id": "C10",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     64.65,
-     167.77
-    ],
-    [
-     60.52,
-     150.32
-    ]
-   ]
-  },
-  {
-   "id": "C11",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     109.98,
-     189.59
-    ],
-    [
-     64.65,
-     167.77
-    ]
-   ]
-  },
-  {
-   "id": "C12",
-   "nazwa": "",
-   "szerokosc_m": 4.0,
-   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
-   "os": [
-    [
-     46.96,
-     89.9
-    ],
-    [
-     72.96,
-     103.46
-    ],
-    [
-     84.19,
-     100.94
-    ],
-    [
-     83.89,
-     99.08
-    ],
-    [
-     92.97,
-     97.19
-    ]
-   ]
-  },
-  {
-   "id": "C13",
-   "nazwa": "",
-   "szerokosc_m": 2.5,
-   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
-   "os": [
-    [
-     30.99,
-     19.17
-    ],
-    [
-     52.07,
-     14.59
-    ],
-    [
-     53.73,
-     14.6
-    ],
-    [
-     56.16,
-     14.04
-    ],
-    [
-     63.09,
-     23.54
-    ]
-   ]
-  },
-  {
-   "id": "C14",
-   "nazwa": "",
-   "szerokosc_m": 2.5,
-   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
-   "os": [
-    [
-     39.73,
-     58.15
-    ],
-    [
-     19.94,
-     62.42
-    ],
-    [
-     13.8,
-     72.06
-    ],
-    [
-     15.49,
-     79.79
-    ],
-    [
-     26.11,
-     77.93
-    ],
-    [
-     46.96,
-     89.9
-    ]
-   ]
-  },
-  {
-   "id": "C15",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     55.73,
-     216.23
-    ],
-    [
-     47.11,
-     218.15
-    ]
-   ]
-  },
-  {
-   "id": "C16",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     33.59,
-     156.67
-    ],
-    [
-     47.11,
-     218.15
-    ],
-    [
-     49.39,
-     228.25
-    ]
-   ]
-  },
-  {
-   "id": "C17",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     28.94,
-     156.69
-    ],
-    [
-     28.32,
-     153.46
-    ],
-    [
-     26.35,
-     145.5
-    ],
-    [
-     21.64,
-     126.47
-    ],
-    [
-     14.01,
-     91.82
-    ]
-   ]
-  },
-  {
-   "id": "C18",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     105.14,
-     139.92
-    ],
-    [
-     101.92,
-     126.12
-    ]
-   ]
-  },
-  {
-   "id": "C19",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     98.34,
-     109.73
-    ],
-    [
-     94.9,
-     94.56
-    ]
-   ]
-  },
-  {
-   "id": "C20",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     80.38,
-     220.54
-    ],
-    [
-     84.1,
-     237.4
-    ]
-   ]
-  },
-  {
-   "id": "C21",
-   "nazwa": "",
-   "szerokosc_m": 2.0,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     73.16,
-     207.41
-    ],
-    [
-     76.82,
-     206.54
-    ],
-    [
-     80.38,
-     220.54
-    ]
-   ]
-  },
-  {
-   "id": "C22",
-   "nazwa": "",
-   "szerokosc_m": 3.0,
-   "zrodlo_szerokosci": "pomiar z ortofotomapy (Geoportal)",
-   "os": [
-    [
-     94.15,
-     94.74
-    ],
-    [
-     92.97,
-     97.19
-    ],
-    [
-     84.28,
-     112.86
-    ],
-    [
-     69.87,
-     116.01
-    ],
-    [
-     53.53,
-     119.59
-    ],
-    [
-     33.67,
-     124.03
-    ],
-    [
-     21.64,
-     126.47
-    ],
-    [
-     16.98,
-     127.42
-    ]
-   ]
-  },
-  {
-   "id": "C23",
-   "nazwa": "",
-   "szerokosc_m": 1.5,
-   "zrodlo_szerokosci": "przyjęta (krawędź niewidoczna na ortofotomapie)",
-   "os": [
-    [
-     22.09,
-     146.58
-    ],
-    [
-     26.35,
-     145.5
-    ]
-   ]
-  },
-  {
-   "id": "C24",
-   "nazwa": "plac utwardzony",
-   "zrodlo_szerokosci": "obrys z OpenStreetMap",
-   "obrys": [
-    [
-     73.74,
-     195.85
-    ],
-    [
-     70.7,
-     196.59
-    ],
-    [
-     69.32,
-     196.85
-    ],
-    [
-     66.83,
-     186.04
-    ],
-    [
-     55.44,
-     188.71
-    ],
-    [
-     59.95,
-     209.06
-    ],
-    [
-     60.5,
-     210.39
-    ],
-    [
-     61.14,
-     211.66
-    ],
-    [
-     72.2,
-     209.12
-    ],
-    [
-     73.88,
-     214.64
-    ],
-    [
-     75.38,
-     221.63
-    ],
-    [
-     79.17,
-     220.78
-    ],
-    [
-     80.38,
-     220.54
-    ],
-    [
-     81.53,
-     220.28
-    ],
-    [
-     89.48,
-     218.53
-    ],
-    [
-     88.94,
-     214.58
-    ],
-    [
-     84.9,
-     195.52
-    ],
-    [
-     83.83,
-     194.65
-    ],
-    [
-     83.5,
-     193.47
-    ]
-   ]
-  }
- ]
+"""
+Mapa z ławkami, drzewami, płotem
+
+
+
+mapa_ms.py – stała mapa obszaru symulacji (Miasteczko Studenckie AGH).
+
+Wszystkie dane są w pliku mapa_ms.json (punkty w metrach). Nic nie jest pobierane z internetu.
+
+  granica             – obrys obszaru (czerwony na Twoim rysunku), lista punktów [x, y]
+  wyjscia             – W1–W6: wejścia/wyjścia (niebieskie); otwieranie: słownik OTWARTE niżej
+  przejscia_zamykane  – Z1, Z2: przejścia, które bywają zamknięte (żółte), flaga "otwarte"
+  chodniki            – C1, C2, ...: oś chodnika + szerokość (lub obrys placu)
+  przeszkody          – toi-toie T1–T8, płot L1, ławki B1–B88, pnie drzew D1–D105
+                        (włączanie/wyłączanie: słownik PRZESZKODY niżej)
+  powierzchnie        – S1 siłownia, S2 boisko do siatkówki, S3 boisko do koszykówki – TYLKO WIZUALNIE
+                        (nie są przeszkodami, można po nich chodzić)
+  kontury             – linie tylko do rysunku (wschodnia ściana Promyka, lewa linia Z1)
+  wyjścia W1–W6 są na końcu 7-metrowych korytarzy przez budynki (pole "korytarz")
+
+Układ: x na wschód, y na północ, metry. 0,0 = lewy dolny róg (podany w EPSG:2180 w pliku).
+
+Użycie:
+    python mapa_ms.py                       # rysuje mapa_ms.png
+    python mapa_ms.py --zamknij Z1 Z2       # rysunek z zamkniętymi przejściami
+
+W symulacji:
+    from mapa_ms import wczytaj
+    m = wczytaj(zamkniete=["Z1"])     # Z1 zamknięte, reszta wg pliku
+    m.obszar      # shapely Polygon – gdzie mogą chodzić ludzie (cały teren minus przeszkody)
+    m.chodniki    # shapely (Multi)Polygon – powierzchnia chodników (np. do preferencji tras)
+    m.wyjscia     # {"W1": LineString, ...} – tylko otwarte (W i Z)
+    m.granica     # shapely Polygon – sam obrys
+
+Wymagania: pip install shapely matplotlib
+"""
+import argparse
+import json
+from dataclasses import dataclass
+from pathlib import Path
+
+from shapely.geometry import LineString, MultiPolygon, Polygon
+from shapely.ops import unary_union
+
+HERE = Path(__file__).resolve().parent
+PLIK = HERE / "mapa_ms.json"
+
+# ============================================================================
+#  WEJŚCIA / WYJŚCIA – True = otwarte, False = zamknięte
+#  (te flagi mają pierwszeństwo przed polem "otwarte" w mapa_ms.json)
+# ============================================================================
+OTWARTE = {
+    "W1": True,   # przejście przez Bonus (północne)        5,4 m
+    "W2": True,   # przejście przez Bratek                  5,4 m
+    "W3": True,   # przejście przez Bonus (południowe)      5,4 m
+    "W4": True,   # przy narożniku Bratka                   5,4 m
+    "W5": True,   # ściana Zaścianka, północne              4,0 m
+    "W6": True,   # ściana Zaścianka, południowe            4,0 m
+    "Z1": True,   # przy Filutku (zamykane)                 1,2 m
+    "Z2": True,   # między Promykiem a Bonusem (zamykane)   7,5 m
 }
+
+# ============================================================================
+#  PRZESZKODY – True = stoją na mapie (blokują ruch), False = usunięte
+#  (mają pierwszeństwo przed polem "aktywna" w mapa_ms.json)
+# ============================================================================
+PRZESZKODY = {
+    "toi-toi": True,               # T1–T8, 1,2 × 1,2 m
+    "płot": True,                  # L1
+    "ławka": True,                 # B1–B88, 1,8 × 0,6 m
+    "drzewo": True,                # D1–D105, pień o średnicy 0,15–0,7 m
+}
+
+
+def _aktywna(p):
+    return PRZESZKODY.get(p.get("rodzaj"), p.get("aktywna", True))
+
+
+def _przedluz(punkty, d):
+    """Linia przedłużona o d metrów na obu końcach (płot szczelnie dochodzi do ściany)."""
+    import math
+    p = [list(map(float, q)) for q in punkty]
+    for i, j in ((0, 1), (-1, -2)):
+        dx, dy = p[i][0] - p[j][0], p[i][1] - p[j][1]
+        L = math.hypot(dx, dy) or 1.0
+        p[i] = [p[i][0] + dx / L * d, p[i][1] + dy / L * d]
+    return LineString(p)
+
+
+@dataclass
+class Mapa:
+    dane: dict
+    granica: Polygon
+    obszar: object         # Polygon (albo MultiPolygon, gdy płot dzieli teren)
+    chodniki: object       # Polygon / MultiPolygon
+    wyjscia: dict          # otwarte wyjścia: id -> LineString (na granicy)
+    zamkniete: list        # id zamkniętych przejść
+    przeszkody: list       # Polygony aktywnych przeszkód
+
+
+def wczytaj(plik=PLIK, zamkniete=None, otwarte=None) -> Mapa:
+    """Stan wejść bierze się ze słownika OTWARTE na początku pliku.
+    zamkniete / otwarte – listy id (np. ["Z1"]) nadpisujące go na czas jednego wczytania."""
+    d = json.loads(Path(plik).read_text(encoding="utf-8"))
+    zamkniete, otwarte = set(zamkniete or []), set(otwarte or [])
+    granica = Polygon(d["granica"])
+    przeszkody = []
+    for p in d["przeszkody"]:
+        if not _aktywna(p):
+            continue
+        if "obrys" in p:
+            przeszkody.append(Polygon(p["obrys"]))
+        else:
+            przeszkody.append(_przedluz(p["linia"], 0.3).buffer(p.get("grubosc_m", 0.2) / 2, cap_style="flat"))
+    obszar = granica.difference(unary_union(przeszkody)) if przeszkody else granica
+    if obszar.geom_type != "Polygon":
+        czesci = sorted(obszar.geoms, key=lambda g: g.area, reverse=True)
+        czesci = [g for g in czesci if g.area > 1.0]
+        if len(czesci) > 1:
+            print(f"Uwaga: płot dzieli obszar na {len(czesci)} części: "
+                  + ", ".join(f"{g.area:.0f} m²" for g in czesci))
+        obszar = MultiPolygon(czesci) if len(czesci) > 1 else czesci[0]
+    ch = [LineString(c["os"]).buffer(c["szerokosc_m"] / 2, cap_style="flat", join_style="round")
+          if "os" in c else Polygon(c["obrys"]) for c in d.get("chodniki", [])]
+    chodniki = unary_union(ch).intersection(obszar) if ch else Polygon()
+    wyj, zamk = {}, []
+    for w in d["wyjscia"] + d["przejscia_zamykane"]:
+        domyslnie = OTWARTE.get(w["id"], w.get("otwarte", True))
+        jest_otwarte = (domyslnie or w["id"] in otwarte) and w["id"] not in zamkniete
+        if jest_otwarte:
+            wyj[w["id"]] = LineString(w["odcinek"])
+        else:
+            zamk.append(w["id"])
+    return Mapa(d, granica, obszar, chodniki, wyj, zamk, przeszkody)
+
+
+def rysuj(m: Mapa, plik=None, ax=None):
+    import matplotlib.pyplot as plt
+    import numpy as np
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Patch
+
+    own = ax is None
+    if own:
+        fig, ax = plt.subplots(figsize=(9, 13))
+
+    from matplotlib.patches import PathPatch
+    from matplotlib.path import Path as MPath
+
+    def fill(g, color=None, ec="none", lw=0, zorder=1, **kw):
+        """Wielokąt z dziurami (dziury przezroczyste)."""
+        for p in getattr(g, "geoms", [g]):
+            if p.geom_type != "Polygon" or p.is_empty:
+                continue
+            verts, codes = [], []
+            for ring in [p.exterior, *p.interiors]:
+                c = list(ring.coords)
+                verts += c
+                codes += [MPath.MOVETO] + [MPath.LINETO] * (len(c) - 2) + [MPath.CLOSEPOLY]
+            ax.add_patch(PathPatch(MPath(verts, codes), facecolor=color, edgecolor=ec, lw=lw, zorder=zorder))
+
+    fill(m.obszar, color="#dfe8cf", lw=0, zorder=1)                 # teren (trawa itp.)
+    fill(m.chodniki, color="#cfc6b8", lw=0, zorder=2)               # chodniki
+    for c in m.dane.get("chodniki", []):
+        if "os" in c and LineString(c["os"]).length > 12:
+            p = LineString(c["os"]).interpolate(0.5, normalized=True)
+            ax.text(p.x, p.y, f"{c['id']}\n{c['szerokosc_m']:.1f} m", fontsize=5, ha="center", va="center",
+                    color="#5a4a35", zorder=6)
+    c = np.array(m.granica.exterior.coords)
+    ax.plot(c[:, 0], c[:, 1], color="#d7191c", lw=2.2, zorder=3)
+    for k in m.dane.get("kontury", []):           # linie pomocnicze (poza obszarem symulacji)
+        c = np.array(k["linia"]); ax.plot(c[:, 0], c[:, 1], color="#d7191c", lw=2.2, zorder=3)
+        if "ciag_dalszy_kropki" in k:
+            c = np.array(k["ciag_dalszy_kropki"])
+            ax.plot(c[:, 0], c[:, 1], color="#d7191c", lw=2.2, ls=(0, (1, 2.5)), zorder=3)
+    # powierzchnie tylko wizualne (boiska, siłownia) – pod przeszkodami, nad chodnikami
+    for p in m.dane.get("powierzchnie", []):
+        kol_o, kol_i, napis = {"boisko do siatkówki": ("#5fa889", None, "siatkówka"),
+                               "boisko do koszykówki": ("#5fa889", None, "koszykówka"),
+                               "siłownia zewnętrzna": ("#d9cdb8", None, "siłownia")}.get(p["rodzaj"], ("#ccc", None, p["id"]))
+        g = Polygon(p["obrys"]).intersection(m.granica)
+        fill(g, color=kol_o, ec="white", lw=0.5, zorder=2.5)
+        if p.get("pole_gry"):
+            fill(Polygon(p["pole_gry"]).intersection(g), color=kol_i, ec="white", lw=0.6, zorder=2.6)
+        cc = g.representative_point() if not p.get("pole_gry") else Polygon(p["pole_gry"]).centroid
+        ax.text(cc.x, cc.y, napis, ha="center", va="center", fontsize=7, weight="bold",
+                color="white" if p["rodzaj"].startswith("boisko") else "#5a4a35", zorder=7)
+    toi = [p for p in m.dane["przeszkody"] if p.get("rodzaj") == "toi-toi" and _aktywna(p)]
+    for p in m.dane["przeszkody"]:
+        if not _aktywna(p):
+            continue                      # wyłączone przeszkody nie są rysowane
+        if "linia" in p:
+            c = np.array(p["linia"])
+            ax.plot(c[:, 0], c[:, 1], color="#4f7a3a" if p["rodzaj"] == "żywopłot" else "#222",
+                    lw=3 if p["rodzaj"] == "żywopłot" else 1.8, zorder=4)
+        else:
+            if p.get("rodzaj") == "drzewo":            # pień + delikatny zarys korony
+                sx, sy = p["srodek"]
+                ax.add_patch(plt.Circle((sx, sy), p["srednica_korony_m"] / 2, facecolor="#6f9a4a", alpha=0.18,
+                                        edgecolor="none", zorder=2))
+            kolor = {"toi-toi": "#1d6fd1", "ławka": "#8a5a2b", "drzewo": "#5b3714", "siłownia zewnętrzna": "#e08a2c",
+                     "boisko do siatkówki": "#e8b04a", "boisko do koszykówki": "#d9774b"}.get(p.get("rodzaj"), "#8d979b")
+            if p.get("rodzaj") in ("siłownia zewnętrzna", "boisko do siatkówki", "boisko do koszykówki"):
+                cc = Polygon(p["obrys"]).representative_point()
+                ax.text(cc.x, cc.y, {"siłownia zewnętrzna": "siłownia", "boisko do siatkówki": "siatkówka",
+                         "boisko do koszykówki": "koszykówka"}[p["rodzaj"]],
+                        ha="center", va="center", fontsize=7, weight="bold", color="#5a3500", zorder=7)
+            fill(Polygon(p["obrys"]), color=kolor, ec=kolor if p.get("rodzaj") == "drzewo" else "white",
+                 lw=0.8 if p.get("rodzaj") == "drzewo" else 0.4, zorder=5)
+    if toi:
+        cc = unary_union([Polygon(p["obrys"]) for p in toi]).centroid
+        ax.annotate(f"toi-toi ×{len(toi)}", (cc.x, cc.y), xytext=(0, 9), textcoords="offset points",
+                    ha="center", fontsize=8, weight="bold", color="#1d6fd1", zorder=8)
+    for w in m.dane["wyjscia"] + m.dane["przejscia_zamykane"]:
+        c = np.array(w["odcinek"])
+        otw = w["id"] in m.wyjscia
+        kolor = "#1f4fd1" if w["id"].startswith("W") else "#f2c200"
+        ax.plot(c[:, 0], c[:, 1], color=kolor, lw=7, zorder=4, solid_capstyle="butt",
+                ls="-" if otw else (0, (1, 1)))
+        p = LineString(w["odcinek"]).interpolate(0.5, normalized=True)
+        ax.annotate(f"{w['id']} {w['szerokosc_m']:.1f} m" + ("" if otw else " (zamknięte)"), (p.x, p.y),
+                    xytext=(8, 0), textcoords="offset points", fontsize=8, weight="bold", zorder=8,
+                    bbox=dict(boxstyle="round,pad=0.2", fc="white", ec=kolor, lw=0.8))
+    x0, y0, x1, y1 = m.granica.bounds
+    for k in m.dane.get("kontury", []):           # zakres rysunku obejmuje też linie pomocnicze
+        for p in k["linia"] + k.get("ciag_dalszy_kropki", []):
+            x0, y0, x1, y1 = min(x0, p[0]), min(y0, p[1]), max(x1, p[0]), max(y1, p[1])
+    ax.set_xticks(np.arange(0, x1 + 10, 10)); ax.set_yticks(np.arange(0, y1 + 10, 10))
+    ax.tick_params(labelsize=7); ax.grid(color="#999", alpha=0.25, lw=0.5)
+    ax.set_xlim(x0 - 5, x1 + 15); ax.set_ylim(y0 - 5, y1 + 5); ax.set_aspect("equal")
+    ax.set_xlabel("x [m] (wschód)"); ax.set_ylabel("y [m] (północ)")
+    ax.legend(handles=[Patch(color="#dfe8cf", label=f"obszar ({m.obszar.area:,.0f} m²)".replace(",", " ")),
+                       Patch(color="#cfc6b8", label=f"chodniki ({m.chodniki.area:,.0f} m²)".replace(",", " ")),
+                       Patch(color="#1d6fd1", label="toi-toi 1,2 × 1,2 m"),
+                       Patch(color="#8a5a2b", label="ławka 1,8 × 0,6 m"),
+                       Line2D([], [], marker="o", ls="", color="#5b3714", markersize=5, label="pień drzewa (korona: jasna zieleń)"),
+                       Patch(color="#5fa889", label="boiska (tylko wizualnie)"),
+                       Patch(color="#d9cdb8", label="siłownia (tylko wizualnie)"),
+                       Line2D([], [], color="#d7191c", lw=2.2, label="granica (ściana)"),
+                       Line2D([], [], color="#1f4fd1", lw=7, label="wyjście W"),
+                       Line2D([], [], color="#f2c200", lw=7, label="przejście zamykane Z"),
+                       Line2D([], [], color="#222", lw=1.8, label="płot")],
+              loc="upper left", fontsize=8)
+    ax.set_title(m.dane["nazwa"], loc="left", fontsize=10)
+    if own:
+        fig.tight_layout()
+        if plik:
+            fig.savefig(plik, dpi=220, bbox_inches="tight")
+    return ax
+
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--zamknij", nargs="*", default=[], help="id przejść do zamknięcia, np. Z1 Z2")
+    a = ap.parse_args()
+    m = wczytaj(zamkniete=a.zamknij)
+    print(f"Granica: {len(m.dane['granica'])} punktów, pole {m.granica.area:.0f} m², obwód {m.granica.length:.0f} m")
+    print(f"Obszar do chodzenia: {m.obszar.area:.0f} m², w tym chodniki {m.chodniki.area:.0f} m²")
+    print("Otwarte wyjścia:", ", ".join(f"{k} ({v.length:.1f} m)" for k, v in m.wyjscia.items()))
+    print("Zamknięte:", ", ".join(m.zamkniete) or "brak")
+    rysuj(m, HERE / "mapa_ms.png")
+    print("Zapisano mapa_ms.png")
