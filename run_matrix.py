@@ -46,7 +46,10 @@ def one(job):
     res = sim.run()
     out = write_outputs(res, outdir, tag)
     if video:
-        render_video(res, os.path.join(outdir, tag + ".mp4"), fps=int(cfg.output.fps))
+        render_video(
+            res, os.path.join(outdir, tag + ".mp4"), fps=int(cfg.output.fps),
+            progress_every=int(cfg.output.render_progress_every),
+        )
     row = {"scenariusz_bram": name, "zestaw_zdarzen": event or "-", **out["summary"]}
     print(f"   gotowe: {tag}  ({res.wall_time_s:.0f} s)", flush=True)
     return row

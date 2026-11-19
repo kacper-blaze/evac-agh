@@ -48,7 +48,8 @@ Uwaga techniczna: kompilacja Numby (JIT) nie została tu przetestowana (brak dos
 - **Stopniowy alarm:** najpierw uciekają osoby najbliżej zdarzenia, dopiero później alarm obejmuje całe miasteczko.
 - **Gapie:** część osób zostaje wokół miejsca zdarzenia.
 - **Wybór wyjścia:** losowość przy pierwszym wyborze (niekoniecznie najbliższe wyjście); przy zatorze agent zmienia bramę.
-- **Znajomość bram:** W6 znana tylko części osób.
+- **Znajomość bram:** pierwotnie W6 znana tylko części osób; założenie wycofano,
+  obecnie wszystkie bramy mają jednakowy poziom znajomości.
 - **Przepustowość bram:** realistyczna; obecnie ewakuacja jest zbyt szybka.
 - **Obrażenia:** część osób nie wyjdzie z powodu urazów z ewakuacji (ciśnienie, stratowanie, złamania), co dodatkowo opóźnia ewakuację.
 
@@ -79,7 +80,7 @@ Zasada: każda zmiana to moduł z przełącznikiem w YAML-u; **wartości domyśl
 |---|---|
 | etapowy alarm | stany nieświadomy → zauważył → zdecydował → ucieka; fala informacji od zdarzenia, globalny komunikat z opóźnieniem |
 | gapie | osobny typ agenta z punktem obserwacji przy zdarzeniu; odchodzą po dotarciu dymu / spadku liczby gapiów / progu paniki |
-| wybór wyjścia | losowość pierwszego wyboru (softmax po kosztach); częściowa znajomość bram (W6 ograniczona); naśladowanie sąsiadów; lokalne wykrywanie zatoru zamiast globalnego liczenia kolejki; stopniowa racjonalność zamiast progu p = 0,6 |
+| wybór wyjścia | losowość pierwszego wyboru (softmax po kosztach); jednakowa znajomość wszystkich bram; naśladowanie sąsiadów; lokalne wykrywanie zatoru zamiast globalnego liczenia kolejki; stopniowa racjonalność zamiast progu p = 0,6 |
 
 ### Etap 3 – obrażenia i dym (17.11)
 | zmiana | opis |
@@ -115,7 +116,7 @@ Zasada: każda zmiana to moduł z przełącznikiem w YAML-u; **wartości domyśl
 
 | parametr | wartość wstępna | uwaga |
 |---|---|---|
-| znajomość W6 | 15% osób | do ustalenia przez zespół |
+| znajomość W6 | jednakowa z pozostałymi bramami (95%) | wcześniejsze 15% wycofano |
 | znajomość pozostałych bram | 90–100% | do ustalenia |
 | prędkość pożądana paniki | ≈ 1,8–2 m/s (dziś 3,0) | do kalibracji na teście wąskiego gardła |
 | prędkość rozchodzenia się informacji | kilka m/s | brak danych, do dyskusji |

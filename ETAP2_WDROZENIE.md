@@ -12,12 +12,12 @@ Liczby poniżej pochodzą z pojedynczych przebiegów kontrolnych – **nie są w
 | płot L1 nieprzekraczalny, część południowa odcięta (2.1) | zrobione | płot jako linia; test szczelności w `tests/test_new_map.py` |
 | osiągalność, raport „wyłączone m²”, gęstość na część aktywną | zrobione | aktywne ≈ 11 670 m², wyłączone ≈ 2 990 m² |
 | opcjonalne przejście w płocie | zrobione, domyślnie wyłączone | `map_options.fence_gate` |
-| grille, ławki, drzewa (2.1) | zrobione; grille i drzewa **przykładowe** | `mapa_dodatki.json`; skupiska startowe `agents.clusters` |
+| grille, ławki, drzewa (2.1) | zrobione; 12 grilli i drzewa **przykładowe** | `mapa_dodatki.json`; skupiska startowe przy grillach ograniczone do 10% grup |
 | podkład z ortofotomapy | zrobione (kod); obraz po stronie zespołu | `output.underlay: {path, extent, alpha}` |
 | przepustowość bram (2.3) | zrobione | futryny, tunele, `v_max` 1,9, prędkość zależna od gęstości; `scripts/bottleneck.py` |
 | stopniowy alarm (2.3) | zrobione | `alarm.mode: staged` |
 | gapie (2.3) | zrobione | `behaviour.gawkers` |
-| wybór wyjścia: losowość, zmiana przy zatorze, znajomość W6 (2.3) | zrobione | `exits.choice.mode: softmax` |
+| wybór wyjścia: losowość, zmiana przy zatorze, znajomość bram (2.3) | zrobione | `exits.choice.mode: softmax`; aktualnie jednakowa znajomość wszystkich bram |
 | obrażenia (2.3) | zrobione; progi = założenie | `injury.mode: dose` |
 | dym realistyczniejszy, odstraszający (2.2) | zrobione | `hazard.model: advection` |
 | zdarzenia: pożar od grilla, huk, pakunek (4) | zrobione | `events:` / `--event pozar / huk / pakunek` |
@@ -94,18 +94,21 @@ jeszcze stoi albo leży (do 30 m); po dojściu kolega rusza razem z nim; po 40 s
 |---|---|---|
 | zasięg fali informacji | 60 m | bez ograniczenia fala 3 m/s obejmowała wszystkich przed komunikatem globalnym |
 | huk | słyszą wszyscy od razu | czas ruszenia nie zależy wtedy od odległości; ograniczenie: `hear_radius_m` |
-| atrakcyjność szerokiej bramy | `width_bonus_m: 10` | dodatek własny; bez niego tłum blokował się na stałe przy Z1 (1 m) |
+| atrakcyjność szerokiej bramy | `width_bonus_m: 20` | założenie własne; zwiększone, by ograniczyć wybór wąskiego Z1 (1,2 m) |
 | dolna granica racjonalności | 0,15 | dodatek własny; nawet spanikowany w końcu rezygnuje z zatkanej bramy |
 | futryny W4–W6, Z1, Z2 | głębokość 0,8 m | do zmiany, jeśli znana jest grubość ścian |
 | progi dawki urazu | próg 450 N/m, ciężko 43 000 N/m·s, lekko 10 000 | dopasowane do literatury cytowanej z pamięci (sekcja 2) – **do weryfikacji w źródłach**; „lekko” = założenie |
 | miejsce zdarzenia | losowe: grill (pożar) albo dowolny punkt (huk, pakunek) | potwierdzone: ma być losowe |
 | zanik dymu | 0,02 1/s | założenie (dym unosi się do góry) |
 | odsetek gapiów | 5% | do ustalenia |
-| znajomość bram | W6 15%, pozostałe 95% | wartości wstępne z dokumentu |
-| grille (6) i drzewa (30) | rozmieszczenie przykładowe | podmienić w `mapa_dodatki.json` lub dodać do mapy zespołu |
+| znajomość bram | jednakowa: 95% dla każdej | wcześniejsze założenie o 15% dla W6 wycofane |
+| grille (12) i drzewa (30) | grille orientacyjnie przy ścieżkach i wokół placu asfaltowego; drzewa przykładowe | podmienić w `mapa_dodatki.json` na rzeczywiste lokalizacje, jeśli będą dostępne |
 | zamknięta brama | wszyscy wiedzą, że jest zamknięta | uproszczenie: nikt nie idzie sprawdzić |
 
-## 4. Przebiegi kontrolne (pożar od grilla, ziarno 42, aktualne ustawienia)
+## 4. Przebiegi kontrolne (pożar od grilla, ziarno 42)
+
+Poniższe wyniki zebrano przed ujednoliceniem znajomości bram; nie opisują
+aktualnej konfiguracji `scenarios/etap2.yaml`.
 
 | | 3000, normalny | 6000, remont + czwartek | 10 000, remont + czwartek |
 |---|---|---|---|

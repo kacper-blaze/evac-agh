@@ -1,7 +1,7 @@
 """Wybór wyjścia - model rozszerzony (exits.choice.mode = softmax).
 
   * pierwszy wybór losowy: P(brama) ~ exp(-koszt / temperature_m) - niekoniecznie najbliższa,
-  * częściowa znajomość bram (np. W6 zna 15% osób); bramę można "odkryć": widząc ją z bliska albo
+  * częściowa znajomość bram; bramę można "odkryć": widząc ją z bliska albo
     naśladując sąsiadów, którzy do niej idą,
   * naśladowanie sąsiadów: brama wybierana przez osoby w pobliżu jest "tańsza" (silniej przy panice),
   * zator wykrywany LOKALNIE: agent, który długo stoi w tłoku daleko od bramy, dolicza swojej bramie karę

@@ -43,7 +43,7 @@ PLIK = HERE / "mapa_ms.json"
 
 # ============================================================================
 #  WEJŚCIA / WYJŚCIA – True = otwarte, False = zamknięte
-#  (te flagi mają pierwszeństwo przed polem "otwarte" w mapa_ms.json)
+#  Flagi z pola "flagi.wyjscia" w pliku mapy mają pierwszeństwo przed tymi wartościami.
 # ============================================================================
 OTWARTE = {
     "W1": True,   # przejście przez Bonus (północne)        5,4 m
@@ -58,7 +58,7 @@ OTWARTE = {
 
 # ============================================================================
 #  PRZESZKODY – True = stoją na mapie (blokują ruch), False = usunięte
-#  (mają pierwszeństwo przed polem "aktywna" w mapa_ms.json)
+#  Flagi z pól "flagi.ploty" i "flagi.przeszkody" w pliku mapy mają pierwszeństwo.
 # ============================================================================
 PRZESZKODY = {
     "toi-toi": True,               # T1–T8, 1,2 × 1,2 m
@@ -68,8 +68,14 @@ PRZESZKODY = {
 }
 
 
-def _aktywna(p):
-    return PRZESZKODY.get(p.get("rodzaj"), p.get("aktywna", True))
+def _aktywna(p, flagi=None):
+    flagi = flagi or {}
+    ploty = flagi.get("ploty", {})
+    if p.get("id") in ploty:
+        return bool(ploty[p["id"]])
+    przeszkody = flagi.get("przeszkody", {})
+    return bool(przeszkody.get(p.get("rodzaj"),
+                               PRZESZKODY.get(p.get("rodzaj"), p.get("aktywna", True))))
 
 
 def _przedluz(punkty, d):
@@ -95,14 +101,15 @@ class Mapa:
 
 
 def wczytaj(plik=PLIK, zamkniete=None, otwarte=None) -> Mapa:
-    """Stan wejść bierze się ze słownika OTWARTE na początku pliku.
+    """Stan wejść bierze się najpierw z flag pliku mapy, potem ze słownika OTWARTE.
     zamkniete / otwarte – listy id (np. ["Z1"]) nadpisujące go na czas jednego wczytania."""
     d = json.loads(Path(plik).read_text(encoding="utf-8"))
+    flagi = d.get("flagi", {})
     zamkniete, otwarte = set(zamkniete or []), set(otwarte or [])
     granica = Polygon(d["granica"])
     przeszkody = []
     for p in d["przeszkody"]:
-        if not _aktywna(p):
+        if not _aktywna(p, flagi):
             continue
         if "obrys" in p:
             przeszkody.append(Polygon(p["obrys"]))
@@ -121,7 +128,7 @@ def wczytaj(plik=PLIK, zamkniete=None, otwarte=None) -> Mapa:
     chodniki = unary_union(ch).intersection(obszar) if ch else Polygon()
     wyj, zamk = {}, []
     for w in d["wyjscia"] + d["przejscia_zamykane"]:
-        domyslnie = OTWARTE.get(w["id"], w.get("otwarte", True))
+        domyslnie = flagi.get("wyjscia", {}).get(w["id"], OTWARTE.get(w["id"], w.get("otwarte", True)))
         jest_otwarte = (domyslnie or w["id"] in otwarte) and w["id"] not in zamkniete
         if jest_otwarte:
             wyj[w["id"]] = LineString(w["odcinek"])
@@ -181,9 +188,11 @@ def rysuj(m: Mapa, plik=None, ax=None):
         cc = g.representative_point() if not p.get("pole_gry") else Polygon(p["pole_gry"]).centroid
         ax.text(cc.x, cc.y, napis, ha="center", va="center", fontsize=7, weight="bold",
                 color="white" if p["rodzaj"].startswith("boisko") else "#5a4a35", zorder=7)
-    toi = [p for p in m.dane["przeszkody"] if p.get("rodzaj") == "toi-toi" and _aktywna(p)]
+    flagi = m.dane.get("flagi", {})
+    toi = [p for p in m.dane["przeszkody"]
+           if p.get("rodzaj") == "toi-toi" and _aktywna(p, flagi)]
     for p in m.dane["przeszkody"]:
-        if not _aktywna(p):
+        if not _aktywna(p, flagi):
             continue                      # wyłączone przeszkody nie są rysowane
         if "linia" in p:
             c = np.array(p["linia"])

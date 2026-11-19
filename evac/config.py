@@ -19,8 +19,8 @@ DEFAULTS: dict[str, Any] = {
     "variants": {                # warianty mapy 2x2 (można dopisać własne w YAML)
         "normalny": {"exits": {"closed": []}},
         "remont": {"exits": {"closed": ["W2", "W4"]}},
-        "czwartek": {"exits": {"closed": ["Z1", "Z2"]}},
-        "remont_czwartek": {"exits": {"closed": ["W2", "W4", "Z1", "Z2"]}},
+        "czwartek": {"exits": {"closed": ["Z1", "Z2", "W6"]}},
+        "remont_czwartek": {"exits": {"closed": ["W2", "W4", "W6", "Z1", "Z2"]}},
     },
     "event_presets": {},         # nazwane zestawy zdarzeń: {huk: [{type: bang, ...}]}; wybór: --event huk
     "map_options": {
@@ -158,7 +158,7 @@ DEFAULTS: dict[str, Any] = {
         "choice": {
             "mode": "legacy",            # legacy = najtańsza brama (+próg p=0.6); softmax = model rozszerzony
             "temperature_m": 12.0,       # losowość pierwszego wyboru (softmax po kosztach w metrach)
-            "knowledge": {"default": 1.0},        # odsetek osób znających bramę, np. {default: 0.95, W6: 0.15}
+            "knowledge": {"default": 1.0},        # odsetek osób znających każdą bramę (można nadpisać per brama)
             "see_dist_m": 25.0,          # z tej odległości (po trasie) agent widzi bramę i jej kolejkę
             "herding": {"radius_m": 5.0, "weight_m": 15.0, "learn_frac": 0.3, "learn_prob": 0.5},
             "local_jam": {"slow_mps": 0.25, "patience_s": 10.0, "near_gate_m": 6.0, "penalty_m": 40.0, "memory_s": 60.0},
@@ -191,6 +191,7 @@ DEFAULTS: dict[str, Any] = {
         "dir": "results",
         "video": True,
         "fps": 10,
+        "render_progress_every": 100,
         "trajectory": True,
         "heatmap": False,                # mapa maks. gęstości i ciśnienia (PNG)
         "underlay": None,                # podkład pod wideo/wykresy: {path: orto.png, extent: [xmin, xmax, ymin, ymax], alpha: 0.6}

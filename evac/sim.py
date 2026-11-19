@@ -654,8 +654,11 @@ class Simulation:
             for _ in range(nsub):
                 self.phys.step(tau)
                 tau += dt
+                if self.record and tau - self.t_last_rec >= float(cfg.sim.record_dt_s) - 1e-9:
+                    self._frame(tau)
+                    self.t_last_rec = tau
         self._stats(tau)
-        if self.record:
+        if self.record and tau - self.t_last_rec >= 1e-9:
             self._frame(tau)
         self.res.t_end = tau
         self.res.wall_time_s = _time.time() - wall0

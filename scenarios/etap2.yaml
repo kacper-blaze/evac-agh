@@ -5,7 +5,7 @@
 #   python run.py scenarios/etap2.yaml --variant remont_czwartek     # zamknięte W2, W4, Z1, Z2
 #   python run.py scenarios/etap2.yaml --event huk --seed 7          # inne zdarzenie, inne miejsce
 #   python run_matrix.py scenarios/etap2.yaml --n 3000 6000 10000 --workers 4
-map: mapa_ms.json                # mapa zespołu - można podmieniać bez zmian w kodzie
+map: mapa_ms_3_oba_ploty.json                # mapa zespołu - można podmieniać bez zmian w kodzie
 map_extras: mapa_dodatki.json    # tunele W1-W3, ławki, PRZYKŁADOWE grille i drzewa
 seed: 42
 variant: normalny              # normalny | remont | czwartek | remont_czwartek  (--variant)
@@ -19,7 +19,7 @@ map_options:
 agents:
   count: 3000                    # dotyczy części AKTYWNEJ (północnej); porównanie: 6000, 10000
   party_phase_s: 30
-  clusters: {share: 0.30, sigma_m: 5.0, benches_weight: 0.05}   # skupiska startowe przy grillach (wstępne)
+  clusters: {share: 0.10, sigma_m: 5.0, benches_weight: 0.05}   # mniejsza część grup zaczyna przy grillach/ławkach
 
 alarm:
   mode: staged
@@ -40,8 +40,8 @@ exits:
   choice:
     mode: softmax
     temperature_m: 12.0
-    knowledge: {default: 0.95, W6: 0.15}    # (wstępne) W6 zna 15% osób
-    width_bonus_m: 10.0                     # (założenie) szeroka brama atrakcyjniejsza niż furtka 1 m
+    knowledge: {default: 0.95}              # jednakowa znajomość wszystkich bram
+    width_bonus_m: 20.0                     # (założenie) mocniej ogranicza wybór wąskiego Z1 (1,2 m)
 
 injury:
   mode: dose

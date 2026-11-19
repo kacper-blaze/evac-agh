@@ -99,7 +99,10 @@ def main(argv=None):
         print(f"{k:38s} {v}")
     if res.frames:
         print("Renderuję wideo...", flush=True)
-        vp = render_video(res, os.path.join(outdir, f"{tag}.mp4"), fps=int(cfg.output.fps))
+        vp = render_video(
+            res, os.path.join(outdir, f"{tag}.mp4"), fps=int(cfg.output.fps),
+            progress_every=int(cfg.output.render_progress_every),
+        )
         print("Wideo:", vp)
     print("Wyniki w:", outdir)
     return res

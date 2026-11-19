@@ -713,62 +713,122 @@
   {
    "id": "G1",
    "xy": [
-    92.6,
-    157.4
+   94.1,
+   186.0
    ],
    "promien_m": 0.5,
    "przykladowe": true,
-   "uwaga": "ROZMIESZCZENIE PRZYKŁADOWE - podmienić na współrzędne od zespołu"
+  "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
   },
   {
    "id": "G2",
    "xy": [
-    13.0,
-    68.8
+    11.1,
+    66.0
    ],
    "promien_m": 0.5,
    "przykladowe": true,
-   "uwaga": "ROZMIESZCZENIE PRZYKŁADOWE - podmienić na współrzędne od zespołu"
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
   },
   {
    "id": "G3",
    "xy": [
-    78.2,
-    235.6
+    78.1,
+    238.0
    ],
    "promien_m": 0.5,
    "przykladowe": true,
-   "uwaga": "ROZMIESZCZENIE PRZYKŁADOWE - podmienić na współrzędne od zespołu"
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
   },
   {
    "id": "G4",
    "xy": [
-    27.8,
-    142.0
+    26.1,
+    153.0
    ],
    "promien_m": 0.5,
    "przykladowe": true,
-   "uwaga": "ROZMIESZCZENIE PRZYKŁADOWE - podmienić na współrzędne od zespołu"
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
   },
   {
    "id": "G5",
    "xy": [
-    69.8,
-    107.2
+    71.1,
+    105.2
    ],
    "promien_m": 0.5,
    "przykladowe": true,
-   "uwaga": "ROZMIESZCZENIE PRZYKŁADOWE - podmienić na współrzędne od zespołu"
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
   },
   {
    "id": "G6",
    "xy": [
-    48.8,
-    189.8
+    52.1,
+    184.0
    ],
    "promien_m": 0.5,
    "przykladowe": true,
-   "uwaga": "ROZMIESZCZENIE PRZYKŁADOWE - podmienić na współrzędne od zespołu"
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
+  },
+  {
+   "id": "G7",
+   "xy": [
+    68.3,
+    159.0
+   ],
+   "promien_m": 0.5,
+   "przykladowe": true,
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
+  },
+  {
+   "id": "G8",
+   "xy": [
+    92.3,
+    221.2
+   ],
+   "promien_m": 0.5,
+   "przykladowe": true,
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
+  },
+  {
+   "id": "G9",
+   "xy": [
+    56.1,
+    212.0
+   ],
+   "promien_m": 0.5,
+   "przykladowe": true,
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
+  },
+  {
+   "id": "G10",
+   "xy": [
+    48.1,
+    212.0
+   ],
+   "promien_m": 0.5,
+   "przykladowe": true,
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
+  },
+  {
+   "id": "G11",
+   "xy": [
+    42.1,
+    124.0
+   ],
+   "promien_m": 0.5,
+   "przykladowe": true,
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
+  },
+  {
+   "id": "G12",
+   "xy": [
+    89.1,
+    117.0
+   ],
+   "promien_m": 0.5,
+   "przykladowe": true,
+   "uwaga": "Położenie orientacyjne przy ścieżkach i wokół placu asfaltowego; niepotwierdzone pomiarem"
   }
  ],
  "drzewa": [

@@ -82,6 +82,49 @@ def merge_extras(data: dict, extras: dict | None) -> dict:
     return out
 
 
+def _apply_map_flags(data: dict) -> dict:
+    flags = data.get("flagi")
+    if not flags:
+        return data
+    if not isinstance(flags, dict):
+        raise ValueError("Pole 'flagi' mapy musi być słownikiem.")
+
+    def value(group, key, fallback):
+        group_flags = flags.get(group, {})
+        if not isinstance(group_flags, dict):
+            raise ValueError(f"Pole 'flagi.{group}' mapy musi być słownikiem.")
+        flag = group_flags.get(key, fallback)
+        if not isinstance(flag, bool):
+            raise ValueError(f"Flaga 'flagi.{group}.{key}' musi mieć wartość true albo false.")
+        return flag
+
+    out = dict(data)
+    for key in ("wyjscia", "przejscia_zamykane"):
+        out[key] = [
+            {**item, "otwarte": value("wyjscia", item["id"], item.get("otwarte", True))}
+            for item in data.get(key, [])
+        ]
+
+    obstacles = []
+    plot_flags = flags.get("ploty", {})
+    if not isinstance(plot_flags, dict):
+        raise ValueError("Pole 'flagi.ploty' mapy musi być słownikiem.")
+    for item in data.get("przeszkody", []):
+        active = value("ploty", item.get("id"), value(
+            "przeszkody", item.get("rodzaj"), item.get("aktywna", True)
+        ))
+        obstacles.append({**item, "aktywna": active})
+    out["przeszkody"] = obstacles
+
+    for key, flag_key in (("lawki", "ławka"), ("drzewa", "drzewo"), ("grille", "grill")):
+        if key in data:
+            out[key] = [
+                {**item, "aktywna": value("przeszkody", flag_key, item.get("aktywna", True))}
+                for item in data[key]
+            ]
+    return out
+
+
 class Scene:
     """Mapa + pola pomocnicze.
 
@@ -91,6 +134,7 @@ class Scene:
     """
 
     def __init__(self, data: dict, cfg, extra_barriers: list | None = None):
+        data = _apply_map_flags(data)
         self.cfg = cfg
         self.data = data
         self.warnings: list[str] = []

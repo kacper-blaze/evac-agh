@@ -2,6 +2,7 @@
 
 Symulacja ewakuacji tłumu (Helbing, Farkas, Vicsek 2000). Wynik: wideo MP4, tabele CSV, wykresy.
 Stan po etapie 2 – szczegóły zmian, założenia i wyniki kontrolne: **`ETAP2_WDROZENIE.md`**.
+Pełna lista argumentów uruchomieniowych oraz parametrów konfiguracji: **`USTAWIENIA_I_PARAMETRY.md`**.
 
 ## Szybki start
 ```
@@ -40,7 +41,7 @@ Wyniki w `results/`: `*_summary.csv`, `*_gates.csv`, `*_timeseries.csv`, `*_agen
 | `evac/stats.py`, `evac/render.py` | tabele, wykresy, mapa zatorów, wideo |
 | `scripts/bottleneck.py` | test wąskiego gardła vs literatura |
 | `scripts/sensitivity.py` | analiza wrażliwości (jeden parametr naraz) |
-| `scripts/make_extras.py` | generuje `scenarios/mapa_dodatki.json` (tunele, ławki, przykładowe grille i drzewa) |
+| `scripts/make_extras.py` | generuje `scenarios/mapa_dodatki.json` (tunele, ławki, grille przy ścieżkach i wokół placu asfaltowego, przykładowe drzewa) |
 
 ## Mapa
 * `scenarios/mapa_ms.json` – mapa zespołu, **bez żadnych ręcznych zmian**; po aktualizacji wystarczy ją podmienić.

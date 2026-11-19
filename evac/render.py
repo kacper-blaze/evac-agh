@@ -1,6 +1,8 @@
 """Wideo MP4 z przebiegu symulacji (matplotlib + ffmpeg; zapas: GIF)."""
 from __future__ import annotations
 
+import time
+
 import numpy as np
 
 
@@ -16,7 +18,8 @@ def _get_ffmpeg():
         return None
 
 
-def render_video(res, path: str, fps: int = 10, max_frames: int | None = None, dpi: int = 100):
+def render_video(res, path: str, fps: int = 10, max_frames: int | None = None, dpi: int = 100,
+                 progress_every: int = 100):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -25,6 +28,9 @@ def render_video(res, path: str, fps: int = 10, max_frames: int | None = None, d
     from matplotlib.colors import ListedColormap
     from matplotlib.patches import Polygon
 
+    if progress_every < 1:
+        raise ValueError("progress_every musi być większe od zera")
+    render_started = time.perf_counter()
     sc, A = res.scene, res.agents
     frames = res.frames
     if max_frames and len(frames) > max_frames:
@@ -35,7 +41,7 @@ def render_video(res, path: str, fps: int = 10, max_frames: int | None = None, d
     fig_w = 8.0
     fig, ax = plt.subplots(figsize=(fig_w + 1.2, fig_w * (h + 10) / (w + 10) + 0.9), dpi=dpi, constrained_layout=True)
     from .stats import draw_map
-    draw_map(ax, sc, res.cfg)
+    draw_map(ax, sc, res.cfg, draw_exits=False, legend=False)
     ax.set_xlabel("x [m]")
     ax.set_ylabel("y [m]")
 
@@ -133,15 +139,73 @@ def render_video(res, path: str, fps: int = 10, max_frames: int | None = None, d
         return []
 
     ffmpeg = _get_ffmpeg()
-    if ffmpeg:
-        matplotlib.rcParams["animation.ffmpeg_path"] = ffmpeg
-        writer = animation.FFMpegWriter(fps=fps, codec="libx264", bitrate=2500,
-                                        extra_args=["-pix_fmt", "yuv420p", "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2"])
+    try:
+        import imageio_ffmpeg
+    except ImportError:
+        imageio_ffmpeg = None
+
+    total_frames = len(frames)
+    last_reported = 0
+
+    def report_progress(i):
+        nonlocal last_reported
+        completed = i + 1
+        if completed > last_reported and (
+            completed % progress_every == 0 or completed == total_frames
+        ):
+            elapsed = time.perf_counter() - render_started
+            print(f"Render: {completed}/{total_frames} klatek, {elapsed:.1f} s", flush=True)
+            last_reported = completed
+
+    print(f"Renderowanie: {total_frames} klatek (raport co {progress_every})", flush=True)
+    if ffmpeg and imageio_ffmpeg is not None:
         out = path
+        dynamic = ([smoke_im] if smoke_im is not None else []) + gate_lines + zone_art \
+            + [sc_art, fall_art, unaw_art, gawk_art, inj_art, info]
+        dynamic_ids = {id(artist) for artist in dynamic}
+        foreground = [artist for artist in ax.get_children()
+                      if id(artist) not in dynamic_ids and artist.get_visible() and artist.get_zorder() > 5]
+        for artist in dynamic + foreground:
+            artist.set_animated(True)
+        draw_order = sorted(dynamic + foreground, key=lambda artist: artist.get_zorder())
+        fig.canvas.draw()
+        background = fig.canvas.copy_from_bbox(fig.bbox)
+        width, height = fig.canvas.get_width_height()
+        stream = imageio_ffmpeg.write_frames(
+            out, (width, height), pix_fmt_in="rgba", pix_fmt_out="yuv420p", fps=fps,
+            bitrate="2500k", codec="libx264", macro_block_size=1,
+            output_params=["-preset", "ultrafast", "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2"],
+        )
+        stream.send(None)
+        try:
+            for i in range(len(frames)):
+                update(i)
+                report_progress(i)
+                fig.canvas.restore_region(background)
+                for artist in draw_order:
+                    ax.draw_artist(artist)
+                fig.canvas.blit(fig.bbox)
+                stream.send(np.asarray(fig.canvas.buffer_rgba()))
+        finally:
+            stream.close()
     else:
-        writer = animation.PillowWriter(fps=fps)
-        out = path.rsplit(".", 1)[0] + ".gif"
-    anim = animation.FuncAnimation(fig, update, frames=len(frames), blit=False)
-    anim.save(out, writer=writer)
+        if ffmpeg:
+            matplotlib.rcParams["animation.ffmpeg_path"] = ffmpeg
+            writer = animation.FFMpegWriter(
+                fps=fps, codec="libx264", bitrate=2500,
+                extra_args=["-pix_fmt", "yuv420p", "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2"],
+            )
+            out = path
+        else:
+            writer = animation.PillowWriter(fps=fps)
+            out = path.rsplit(".", 1)[0] + ".gif"
+        def update_with_progress(i):
+            result = update(i)
+            report_progress(i)
+            return result
+
+        anim = animation.FuncAnimation(fig, update_with_progress, frames=len(frames), blit=False)
+        anim.save(out, writer=writer)
     plt.close(fig)
+    print(f"Renderowanie zakończone w {time.perf_counter() - render_started:.1f} s: {out}", flush=True)
     return out

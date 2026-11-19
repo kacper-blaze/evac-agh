@@ -226,32 +226,149 @@ def plot_curve(res, path):
     plt.close(fig)
 
 
-def draw_map(ax, sc, cfg=None, light=True):
-    """Tło mapy wspólne dla wykresów i wideo: obrys, tunele, przeszkody, płot, ławki, drzewa, grille, podkład."""
-    from matplotlib.patches import Polygon
+def draw_map(ax, sc, cfg=None, light=True, draw_exits=True, exit_open=None, legend=True):
+    """Rysuj mapę bazową w stylu mapa_ms.py, z warstwami geometrii sceny."""
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Circle, Patch, Polygon
+
+    cfg = cfg or sc.cfg
     und = getattr(cfg.output, "underlay", None) if cfg is not None else None
+    has_underlay = False
     if und is not None and getattr(und, "path", None) and os.path.isfile(str(und.path)):
         import matplotlib.pyplot as plt
         ax.imshow(plt.imread(str(und.path)), extent=list(und.extent), alpha=float(getattr(und, "alpha", 0.6)),
                   zorder=0, origin="upper")
-        fc = "none"
-    else:
-        fc = "#f4f1ea"
-    ax.add_patch(Polygon(sc.polygon, closed=True, fc=fc, ec="#444", lw=1.2, zorder=0.5))
+        has_underlay = True
+    data = getattr(sc, "data", {})
+    terrain_color = "none" if has_underlay else "#dfe8cf"
+    ax.add_patch(Polygon(sc.polygon, closed=True, fc=terrain_color, ec="none", lw=0, zorder=1))
     for t in sc.tunnels:
-        ax.add_patch(Polygon(t, closed=True, fc=fc, ec="#777", lw=0.8, zorder=0.5))
-    for o in sc.fixed_obstacles:
-        ax.add_patch(Polygon(o, closed=True, fc="#8a8f98", ec="#444", lw=0.6, zorder=1))
+        ax.add_patch(Polygon(t, closed=True, fc=terrain_color, ec="#777", lw=0.8, zorder=1))
+
+    x0, y0, x1, y1 = sc.bounds
+    for k in data.get("kontury", []):
+        pts = np.asarray(k["linia"], dtype=float)
+        x0, y0 = min(x0, float(pts[:, 0].min())), min(y0, float(pts[:, 1].min()))
+        x1, y1 = max(x1, float(pts[:, 0].max())), max(y1, float(pts[:, 1].max()))
+        extra = np.asarray(k.get("ciag_dalszy_kropki", []), dtype=float)
+        if extra.size:
+            x0, y0 = min(x0, float(extra[:, 0].min())), min(y0, float(extra[:, 1].min()))
+            x1, y1 = max(x1, float(extra[:, 0].max())), max(y1, float(extra[:, 1].max()))
+    fig_w, fig_h = ax.figure.get_size_inches()
+    points_per_m = 72.0 * min(fig_w / max(x1 - x0 + 20.0, 1.0), fig_h / max(y1 - y0 + 10.0, 1.0))
+    for c in data.get("chodniki", []):
+        if "os" in c:
+            pts = np.asarray(c["os"], dtype=float)
+            width = max(float(c.get("szerokosc_m", 1.5)) * points_per_m, 0.4)
+            ax.plot(pts[:, 0], pts[:, 1], color="#cfc6b8", lw=width, solid_capstyle="butt",
+                    solid_joinstyle="round", zorder=2)
+            seg = np.linalg.norm(np.diff(pts, axis=0), axis=1)
+            length = float(seg.sum())
+            if length > 12:
+                target = length * 0.5
+                i = int(np.searchsorted(np.cumsum(seg), target, side="left"))
+                before = float(seg[:i].sum())
+                p = pts[i] + (pts[i + 1] - pts[i]) * ((target - before) / max(float(seg[i]), 1e-9))
+                ax.text(p[0], p[1], f"{c.get('id', '')}\n{float(c.get('szerokosc_m', 1.5)):.1f} m",
+                        fontsize=5, ha="center", va="center", color="#5a4a35", zorder=6)
+        elif "obrys" in c:
+            ax.add_patch(Polygon(c["obrys"], closed=True, fc="#cfc6b8", ec="none", zorder=2))
+
+    boundary = np.asarray(sc.polygon, dtype=float)
+    boundary = np.vstack((boundary, boundary[0]))
+    ax.plot(boundary[:, 0], boundary[:, 1], color="#d7191c", lw=2.2, zorder=3)
+    for k in data.get("kontury", []):
+        pts = np.asarray(k["linia"], dtype=float)
+        ax.plot(pts[:, 0], pts[:, 1], color="#d7191c", lw=2.2, zorder=3)
+        extra = np.asarray(k.get("ciag_dalszy_kropki", []), dtype=float)
+        if extra.size:
+            ax.plot(extra[:, 0], extra[:, 1], color="#d7191c", lw=2.2, ls=(0, (1, 2.5)), zorder=3)
+
+    surface_styles = {
+        "boisko do siatkówki": ("#5fa889", "siatkówka"),
+        "boisko do koszykówki": ("#5fa889", "koszykówka"),
+        "siłownia zewnętrzna": ("#d9cdb8", "siłownia"),
+    }
+    for p in data.get("powierzchnie", []):
+        color, label = surface_styles.get(p.get("rodzaj"), ("#ccc", p.get("id", "")))
+        outline = np.asarray(p["obrys"], dtype=float)
+        ax.add_patch(Polygon(outline, closed=True, fc=color, ec="white", lw=0.5, zorder=3))
+        if p.get("pole_gry"):
+            playing = np.asarray(p["pole_gry"], dtype=float)
+            ax.add_patch(Polygon(playing, closed=True, fc="#5fa889", ec="white", lw=0.6, zorder=3.1))
+            center = playing.mean(axis=0)
+        else:
+            center = outline.mean(axis=0)
+        ax.text(center[0], center[1], label, ha="center", va="center", fontsize=7, weight="bold",
+                color="white" if str(p.get("rodzaj", "")).startswith("boisko") else "#5a4a35", zorder=7)
+
+    obstacle_colors = {"toi-toi": "#1d6fd1", "ławka": "#8a5a2b", "drzewo": "#5b3714"}
+    active_obstacles = [o for o in data.get("przeszkody", []) if o.get("aktywna", True)]
+    toi = [o for o in active_obstacles if o.get("rodzaj") == "toi-toi"]
+    for o in active_obstacles:
+        kind = o.get("rodzaj")
+        color = obstacle_colors.get(kind, "#8d979b")
+        if kind == "drzewo" and o.get("srodek") and o.get("srednica_korony_m"):
+            ax.add_patch(Circle(o["srodek"], float(o["srednica_korony_m"]) / 2,
+                                fc="#6f9a4a", ec="none", alpha=0.18, zorder=2.5))
+        if "linia" in o:
+            pts = np.asarray(o["linia"], dtype=float)
+            line_color = "#4f7a3a" if kind == "żywopłot" else "#222"
+            ax.plot(pts[:, 0], pts[:, 1], color=line_color, lw=3 if kind == "żywopłot" else 1.8, zorder=4)
+        elif "obrys" in o:
+            ax.add_patch(Polygon(o["obrys"], closed=True, fc=color,
+                                 ec=color if kind == "drzewo" else "white",
+                                 lw=0.8 if kind == "drzewo" else 0.4, zorder=5))
+        elif "xy" in o:
+            ax.add_patch(Circle(o["xy"], float(o.get("promien_m", 0.4)), fc=color, ec="white", lw=0.4, zorder=5))
+
     for o in sc.bench_obstacles:
-        ax.add_patch(Polygon(o, closed=True, fc="#9b6b43", ec="#5f3d25", lw=0.4, zorder=1))
+        ax.add_patch(Polygon(o, closed=True, fc="#8a5a2b", ec="white", lw=0.4, zorder=5))
     for o in sc.tree_obstacles:
-        ax.add_patch(Polygon(o, closed=True, fc="#3f8f4a", ec="#2a6332", lw=0.4, zorder=1))
+        ax.add_patch(Polygon(o, closed=True, fc="#5b3714", ec="#5b3714", lw=0.4, zorder=5))
     for g in sc.grills:
-        ax.plot([g["xy"][0]], [g["xy"][1]], marker="s", ms=5, color="#333", mec="#e8590c", mew=1.2, zorder=2)
+        ax.plot([g["xy"][0]], [g["xy"][1]], marker="s", ms=5, color="#333", mec="#e8590c", mew=1.2, zorder=5)
     for b in sc.barriers:
-        ax.plot([b["from"][0], b["to"][0]], [b["from"][1], b["to"][1]], color="k", lw=2, zorder=2)
+        ax.plot([b["from"][0], b["to"][0]], [b["from"][1], b["to"][1]], color="k", lw=2, zorder=4)
     for ln in sc.lines:
-        ax.plot(ln["pts"][:, 0], ln["pts"][:, 1], color="#222", lw=1.8, zorder=2)
+        if not any(o.get("id") == ln["id"] for o in active_obstacles):
+            ax.plot(ln["pts"][:, 0], ln["pts"][:, 1],
+                    color="#4f7a3a" if ln["rodzaj"] == "żywopłot" else "#222",
+                    lw=3 if ln["rodzaj"] == "żywopłot" else 1.8, zorder=4)
+    if toi:
+        centers = [np.asarray(o.get("obrys", [o.get("xy", [0, 0])]), dtype=float).mean(axis=0) for o in toi]
+        center = np.asarray(centers).mean(axis=0)
+        ax.annotate(f"toi-toi ×{len(toi)}", center, xytext=(0, 9), textcoords="offset points",
+                    ha="center", fontsize=8, weight="bold", color="#1d6fd1", zorder=8)
+
+    if draw_exits:
+        flags = list(exit_open) if exit_open is not None else sc.initial_open()
+        for k, e in enumerate(sc.exits):
+            opened = bool(flags[k]) if k < len(flags) else bool(e.open0)
+            color = "#1f4fd1" if e.id.startswith("W") else "#f2c200"
+            ax.plot([e.a[0], e.b[0]], [e.a[1], e.b[1]], color=color, lw=7, zorder=4,
+                    solid_capstyle="butt", ls="-" if opened else (0, (1, 1)))
+            ax.annotate(f"{e.id} {e.width:.1f} m" + ("" if opened else " (zamknięte)"), e.center,
+                        xytext=(8, 0), textcoords="offset points", fontsize=8, weight="bold", zorder=8,
+                        bbox=dict(boxstyle="round,pad=0.2", fc="white", ec=color, lw=0.8))
+
+    if legend:
+        handles = [
+            Patch(color="#dfe8cf", label="obszar"),
+            Patch(color="#cfc6b8", label="chodniki"),
+            Patch(color="#1d6fd1", label="toi-toi"),
+            Patch(color="#8a5a2b", label="ławka"),
+            Line2D([], [], marker="o", ls="", color="#5b3714", markersize=5,
+                   label="pień drzewa (korona: jasna zieleń)"),
+            Patch(color="#5fa889", label="boiska (tylko wizualnie)"),
+            Patch(color="#d9cdb8", label="siłownia (tylko wizualnie)"),
+            Line2D([], [], color="#d7191c", lw=2.2, label="granica / kontur"),
+            Line2D([], [], color="#1f4fd1", lw=7, label="wyjście W"),
+            Line2D([], [], color="#f2c200", lw=7, label="przejście Z"),
+            Line2D([], [], color="#222", lw=1.8, label="płot"),
+        ]
+        ax.legend(handles=handles, loc="upper left", fontsize=8)
+
     stg = getattr(sc, "steward_gates", None)
     if stg is not None:
         for k in np.flatnonzero(stg):
@@ -259,10 +376,17 @@ def draw_map(ax, sc, cfg=None, light=True):
             ax.plot([c[0]], [c[1]], marker="^", ms=7, color="#1971c2", mec="white", mew=0.6, zorder=6)
     if sc.fence_gate_xy is not None:
         ax.plot([sc.fence_gate_xy[0]], [sc.fence_gate_xy[1]], marker="D", ms=6, color="#f2c200", mec="k", zorder=3)
-    x0, y0, x1, y1 = sc.bounds
     ax.set_aspect("equal")
-    ax.set_xlim(x0 - 5, x1 + 5)
+    ax.set_xlim(x0 - 5, x1 + 15)
     ax.set_ylim(y0 - 5, y1 + 5)
+    ax.set_xticks(np.arange(np.floor((x0 - 5) / 10) * 10, x1 + 20, 10))
+    ax.set_yticks(np.arange(np.floor((y0 - 5) / 10) * 10, y1 + 10, 10))
+    ax.tick_params(labelsize=7)
+    ax.grid(color="#999", alpha=0.25, lw=0.5)
+    ax.set_xlabel("x [m] (wschód)")
+    ax.set_ylabel("y [m] (północ)")
+    ax.set_title(data.get("nazwa", "mapa"), loc="left", fontsize=10)
+    return ax
 
 
 def plot_heatmap(res, path):
@@ -277,13 +401,10 @@ def plot_heatmap(res, path):
     fig, axs = plt.subplots(1, 2, figsize=(12, 9), constrained_layout=True)
     for ax, key, lab, cmap in ((axs[0], "dens", "maks. gęstość [os/m²]", "magma_r"),
                                (axs[1], "press", "maks. ciśnienie [N/m]", "inferno_r")):
-        draw_map(ax, sc)
+        draw_map(ax, sc, res.cfg, exit_open=res.open_final)
         data = np.ma.masked_less_equal(h[key], 0)
         im = ax.imshow(data, origin="lower", extent=ext, cmap=cmap, alpha=0.85, zorder=3)
         fig.colorbar(im, ax=ax, fraction=0.035, pad=0.01, label=lab)
-        for k, e in enumerate(sc.exits):
-            ax.text(e.center[0] + 3 * e.n[0], e.center[1] + 3 * e.n[1], e.id, fontsize=8, weight="bold",
-                    ha="center", va="center", color="#2e9e4f" if (not res.open_final or res.open_final[k]) else "#c92a2a")
         ax.set_title(lab)
     fig.savefig(path, dpi=120)
     plt.close(fig)
